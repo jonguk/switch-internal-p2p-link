@@ -19,7 +19,7 @@ Switch Internal P2P Link는 포트 간 고성능 패킷 전달을 위한 내부 
   - 외부 인터페이스 변경 시 내부 시스템 영향 최소화
   - 확장 가능한 외부 인터페이스 지원
 - **인스턴스화**: 각 포트마다 개별 인스턴스 생성
-- **구성**: Ingress Handler + Egress Handler
+- **구성**: Ingress Port Manager + Egress Port Manager
 - **연결**:
   - **데이터 경로**: Queue Manager와 AXIS 프로토콜로 연결 (패킷 전달)
   - **제어 경로**: Port-level AXI Switch에 AXI Master/Slave로 연결
@@ -27,7 +27,7 @@ Switch Internal P2P Link는 포트 간 고성능 패킷 전달을 위한 내부 
   - **AXI Master**: 상태 보고, 에러 알림 송신
   - **AXI Slave**: 제어 명령 수신 (포트 설정, 인터페이스 제어)
 
-#### 1.1 Ingress Handler
+#### 1.1 Ingress Port Manager
 - **역할**: 외부→내부 인터페이스 추상화
 - **추상화 기능**:
   - 다양한 외부 프로토콜 (PCIe, Ethernet, CXL 등) 수용
@@ -41,7 +41,7 @@ Switch Internal P2P Link는 포트 간 고성능 패킷 전달을 위한 내부 
   - 입력 버퍼링 및 플로우 제어
 - **인터페이스**: AXIS Master (→ Ingress Queue Manager)
 
-#### 1.2 Egress Handler  
+#### 1.2 Egress Port Manager  
 - **역할**: 내부→외부 인터페이스 추상화
 - **추상화 기능**:
   - 통일된 Internal 포맷 → 다양한 외부 프로토콜로 변환
@@ -75,12 +75,12 @@ Switch Internal P2P Link는 포트 간 고성능 패킷 전달을 위한 내부 
 ##### 2.1.1 Ingress Queue Manager
 - **역할**: 해당 포트로부터 들어오는 패킷 큐 관리
 - **주요 기능**:
-  - AXIS Slave로 Ingress Handler로부터 패킷 수신
+  - AXIS Slave로 Ingress Port Manager로부터 패킷 수신
   - 패킷 버퍼링 및 큐 관리
   - Routing & Switching Core로 패킷 전달
   - 백프레셔 및 플로우 제어
 - **인터페이스**: 
-  - AXIS Slave (← Ingress Handler)
+  - AXIS Slave (← Ingress Port Manager)
   - Internal Bus (→ Routing & Switching Core)
 
 ##### 2.1.2 Egress Queue Manager  
@@ -88,11 +88,11 @@ Switch Internal P2P Link는 포트 간 고성능 패킷 전달을 위한 내부 
 - **주요 기능**:
   - Routing & Switching Core로부터 패킷 수신
   - 패킷 버퍼링 및 큐 관리
-  - AXIS Master로 Egress Handler에 패킷 전달
+  - AXIS Master로 Egress Port Manager에 패킷 전달
   - 스케줄링 및 우선순위 처리
 - **인터페이스**: 
   - Internal Bus (← Routing & Switching Core)
-  - AXIS Master (→ Egress Handler)
+  - AXIS Master (→ Egress Port Manager)
 
 ### 3. AXI Switch (계층적 구조)
 - **역할**: 패킷 제어를 위한 계층적 통신 구조
@@ -218,17 +218,17 @@ Switch Internal P2P Link는 포트 간 고성능 패킷 전달을 위한 내부 
 ## 데이터 플로우 (Data Flow)
 
 ### 패킷 전송 플로우 (데이터 경로)
-1. **외부 수신**: Ingress Handler가 다양한 외부 프로토콜로 패킷 수신 (PCIe, Ethernet, CXL 등)
-2. **인터페이스 추상화**: Ingress Handler가 외부 프로토콜별 처리 및 파싱
+1. **외부 수신**: Ingress Port Manager가 다양한 외부 프로토콜로 패킷 수신 (PCIe, Ethernet, CXL 등)
+2. **인터페이스 추상화**: Ingress Port Manager가 외부 프로토콜별 처리 및 파싱
 3. **포맷 변환**: 외부 포맷 → 통일된 Internal 포맷 변환 (추상화 완료)
-4. **AXIS 전송**: Ingress Handler (AXIS Master) → Ingress Queue Manager (AXIS Slave)
+4. **AXIS 전송**: Ingress Port Manager (AXIS Master) → Ingress Queue Manager (AXIS Slave)
 5. **버퍼링**: Ingress Queue Manager가 패킷 버퍼링 및 큐 관리
 6. **라우팅**: Routing & Switching Core가 목적지 분석 (내부 포맷 기반)
 7. **스위칭**: Internal Bus를 통해 목적지 Egress Queue Manager로 패킷 전달
 8. **큐잉**: Egress Queue Manager가 패킷 버퍼링 및 스케줄링
-9. **AXIS 전송**: Egress Queue Manager (AXIS Master) → Egress Handler (AXIS Slave)
+9. **AXIS 전송**: Egress Queue Manager (AXIS Master) → Egress Port Manager (AXIS Slave)
 10. **포맷 변환**: Internal 포맷 → 목적지 외부 프로토콜 포맷 변환 (추상화 역변환)
-11. **인터페이스 추상화**: Egress Handler가 외부 프로토콜별 타이밍 및 제어 처리
+11. **인터페이스 추상화**: Egress Port Manager가 외부 프로토콜별 타이밍 및 제어 처리
 12. **외부 송신**: 다양한 외부 프로토콜로 패킷 송신 (PCIe, Ethernet, CXL 등)
 
 ### 제어 플로우 (제어 경로)
@@ -268,11 +268,11 @@ Switch Internal P2P Link는 포트 간 고성능 패킷 전달을 위한 내부 
 
 ### 다음 단계 (🎯)
 - [ ] 🎯 외부 인터페이스 추상화 레이어 설계 (PCIe, Ethernet, CXL 등)
-- [ ] 🎯 Ingress Handler 프로토콜별 추상화 모듈 설계
-- [ ] 🎯 Egress Handler 프로토콜별 추상화 모듈 설계
+- [ ] 🎯 Ingress Port Manager 프로토콜별 추상화 모듈 설계
+- [ ] 🎯 Egress Port Manager 프로토콜별 추상화 모듈 설계
 - [ ] 🎯 Internal 패킷 포맷 정의 (통일된 내부 표준)
 - [ ] 🎯 외부↔내부 포맷 변환 규칙 및 매핑 테이블 설계
-- [ ] 🎯 Ingress/Egress Handler AXIS 인터페이스 상세 정의
+- [ ] 🎯 Ingress/Egress Port Manager AXIS 인터페이스 상세 정의
 - [ ] 🎯 Ingress Queue Manager 큐 구조 및 AXIS 인터페이스 설계
 - [ ] 🎯 Egress Queue Manager 큐 구조 및 AXIS 인터페이스 설계
 - [ ] 🎯 System-level AXI Switch 아키텍처 및 중재 로직 설계
