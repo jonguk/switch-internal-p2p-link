@@ -9,6 +9,7 @@ Switch Internal P2P Link는 포트 간 고성능 패킷 전달을 위한 내부 
 - **고성능 적응형 버퍼링**: 채널 타입별 최적화된 SRAM Circular Buffer로 Bandwidth Mismatch 해결 및 Processing Latency Hiding
 - **무손실 플로우 제어**: End-to-End 크레딧 기반 시스템으로 패킷 손실 완전 방지
 - **백프레셔 없는 Ingress**: 크레딧 기반으로 무조건 수신 보장, 내부 백프레셔 제거
+- **Bandwidth Saturation 최적화**: 수학적 크레딧 계산으로 최대 대역폭 활용률 달성
 - **Queue별 우선순위 스케줄링**: 외부 Ingressor 크레딧과 우선순위 기반 정교한 QoS 제어
 - **계층적 데이터 구조**: Port > Channel > Queue 3계층으로 유연한 트래픽 관리
 - **Channel-Agnostic 처리**: 채널 구분 없이 Queue 번호 기반 단순화된 라우팅
@@ -65,35 +66,32 @@ Switch Internal P2P Link는 포트 간 고성능 패킷 전달을 위한 내부 
   - 외부 프로토콜별 패킷 파싱 및 검증
   - 외부 포맷 → 통일된 Internal 포맷 변환
   - 외부 인터페이스 특성을 내부로부터 숨김
-- **버퍼링 시스템**:
-  - **채널 타입별 적응형 버퍼링**:
-    - **가변 Payload 채널**: Header/Payload 분리형 SRAM Circular Buffer
-      - Header Queue: Fixed entry size, 패킷 메타데이터 저장
-      - Payload Queue: 가변 길이 패킷 데이터 저장
-      - 포인터 연결: Header에 Payload 시작위치 및 크기 정보 저장
-    - **고정 Payload 채널**: 단일 SRAM Circular Buffer (패킷 통째 저장)
-      - Fixed size entry로 패킷 전체 저장
-      - Header/Payload 분리 없이 단순 버퍼링
-      - 메모리 접근 최적화 및 지연 시간 최소화
+- **단일 버퍼링 시스템**:
+  - **단일 SRAM Circular Buffer**: 외부 데이터를 가공 없이 그대로 저장
+    - 외부 프로토콜 데이터를 변환 없이 Raw 형태로 버퍼링
+    - 가변 크기 패킷을 그대로 저장 (고정/가변 패킷 모두 수용)
+    - 포맷 변환이나 분석 처리 없이 단순 저장
   - **Bandwidth Mismatch 해결**: 외부↔내부 스트리밍 속도 차이 흡수
-  - **Processing Latency Hiding**: 포맷 변환 및 처리 지연 시간 숨김
+  - **Processing Latency Hiding**: 내부 전송 지연 시간 숨김
   - **백프레셔 없는 수신**: 전송된 패킷은 무조건 버퍼링 (손실 방지)
 - **크레딧 기반 플로우 제어**:
   - **외부 크레딧 관리**: 외부 Egressor가 크레딧만큼만 데이터 전송
   - **End-to-End 크레딧 순환**: 패킷이 최종 목적지 전달 시 크레딧 반환
   - **크레딧 적립**: 반환된 크레딧을 외부 Egressor에게 재적립
+
 - **주요 기능**:
-  - 외부 패킷 수신 및 프로토콜 처리
-  - **채널 타입별 버퍼링**:
-    - **가변 Payload 채널**: Header Queue + Payload Queue 분리 관리
-      - Header Queue: Fixed size entry에 메타데이터 저장
-      - Payload Queue: 가변 길이 패킷 데이터 버퍼링
-      - 포인터 매핑: Header에 Payload 위치 및 크기 정보 연결
-    - **고정 Payload 채널**: 패킷 통째 저장
-      - Fixed size entry로 패킷 전체 버퍼링
-      - Header/Payload 분리 처리 생략으로 성능 최적화
-  - **Channel-Agnostic 전달**: 채널 구분 없이 Queue 번호 기반 전달
-  - 패킷 헤더 분석 및 메타데이터 생성
+  - 외부 패킷 수신 (프로토콜별 기본 처리만)
+  - **Raw 데이터 버퍼링**: 외부 데이터를 가공 없이 Circular Buffer에 저장
+    - 포맷 변환, 파싱, 분석 처리 없이 Raw 형태 그대로 저장
+    - 가변 크기 패킷을 그대로 버퍼링 (고정/가변 패킷 모두 수용)
+    - 채널 타입이나 패킷 타입 구분 없이 단순 저장
+  - **Internal Header 생성 및 AXIS 전송**:
+    - Circular Buffer에서 패킷 추출 시 Internal Header 생성
+    - 내부 라우팅 및 버퍼링을 위한 메타데이터 포함 (채널 타입, 큐 번호, 패킷 타입 등)
+    - AXIS.tuser 필드에 Internal Header 삽입
+    - AXIS.tdata에는 Raw 데이터 그대로 전송
+    - AXIS.tlast로 패킷 마지막 beat 표시 (burst 경계 구분)
+  - **기본 패킷 정보 추출**: Internal Header 생성을 위한 최소한의 패킷 분석
   - AXIS Master로 Ingress Queue Manager에 패킷 전달
 - **인터페이스**: AXIS Master (→ Ingress Queue Manager)
 
@@ -104,41 +102,22 @@ Switch Internal P2P Link는 포트 간 고성능 패킷 전달을 위한 내부 
   - 외부 프로토콜별 패킷 생성 및 포맷팅
   - 외부 인터페이스 특성에 맞는 타이밍 제어
   - 외부 인터페이스 에러 처리 및 복구
-- **버퍼링 시스템**:
-  - **Queue별 채널 타입 적응 버퍼링** (각 큐마다 최소 2패킷 저장):
-    - **가변 Payload Queue**: Header/Payload 분리형 SRAM Circular Buffer
-      - Header Queue: Fixed entry size, 패킷 메타데이터 및 우선순위 정보 저장
-      - Payload Queue: 가변 길이 패킷 데이터 저장
-      - 포인터 연결: Header에 Payload 시작위치 및 크기 정보 저장
-    - **고정 Payload Queue**: 단일 SRAM Circular Buffer
-      - Fixed size entry로 패킷 전체 저장
-      - Header/Payload 분리 없이 단순 버퍼링
-      - 성능 최적화 및 지연 시간 최소화
-  - **다중 큐 지원**: 여러 우선순위 큐별 독립적 버퍼 관리
+- **단일 버퍼링 시스템**:
+  - **단일 SRAM Circular Buffer**: 모든 패킷을 통째로 저장
+    - 받은 패킷을 크기에 상관없이 그대로 버퍼링
+    - Header/Payload 분리 없이 단순 버퍼링
+    - 성능 최적화 및 지연 시간 최소화
   - **Bandwidth Mismatch 해결**: 내부↔외부 스트리밍 속도 차이 흡수
   - **Processing Latency Hiding**: 포맷 변환 및 송신 처리 지연 시간 숨김
-- **크레딧 기반 스케줄링 시스템**:
-  - **외부 Ingressor 크레딧 관리**: 외부 Ingressor가 제공한 큐별 크레딧 추적
-  - **우선순위 기반 큐 선택**: 크레딧이 유효한 큐들 중 최고 우선순위 큐 선택
-  - **크레딧 차감 및 전송**: 전송 필요 크레딧 차감 후 해당 큐에서 패킷 추출
-  - **Queue별 독립 스케줄링**: 각 큐의 circular buffer에서 패킷 개별 관리
-- **크레딧 반환 시스템**:
-  - **패킷 전송 완료 감지**: 외부로 패킷 송신 완료 시점 확인
-  - **소스 포트 크레딧 반환**: 원래 패킷을 받았던 Ingress Port Manager로 크레딧 반환
-  - **외부 크레딧 적립**: 반환된 크레딧을 해당 외부 Egressor에게 적립 통지
+- **단순 패킷 송신 전용**:
+  - **단순 패킷 송신**: Egress Queue Manager로부터 AXIS로 수신한 패킷을 외부로 송신
 - **주요 기능**:
   - AXIS Slave로 Egress Queue Manager에서 패킷 수신
-  - **Queue별 채널 타입 적응 처리**:
-    - **가변 Payload Queue**: Header/Payload 분리 저장 및 재구성
-      - Header Queue 관리: Fixed size entry에 메타데이터 및 우선순위 정보 저장
-      - Payload Queue 관리: 가변 길이 패킷 데이터를 큐별로 버퍼링
-      - 포인터 매핑: Header에 Payload 위치 및 크기 정보 연결
-      - 패킷 재구성: Header 정보로 Payload 위치 확인 후 완전한 패킷 재구성
-    - **고정 Payload Queue**: 패킷 통째 저장 및 추출
-      - Fixed size entry로 패킷 전체 버퍼링
-      - 단순 패킷 추출로 성능 최적화
+  - **단일 Circular Buffer 관리**: 모든 패킷을 통째로 저장
+    - 받은 패킷을 크기에 상관없이 그대로 버퍼링
+    - Header/Payload 분리 없이 단순 버퍼링으로 성능 최적화
+
   - **Channel-Agnostic 처리**: 채널 구분 없이 Queue 번호 기반 처리
-  - **크레딧 기반 스케줄링**: 외부 Ingressor 크레딧과 우선순위 기반 큐 선택
   - Internal 포맷 → 외부 포맷 변환
   - 외부 프로토콜별 패킷 송신
 - **인터페이스**: AXIS Slave (← Egress Queue Manager)
@@ -163,11 +142,23 @@ Switch Internal P2P Link는 포트 간 고성능 패킷 전달을 위한 내부 
   - **AXI Slave**: 제어 명령 수신 (큐 설정, 버퍼 제어, 스케줄링 정책)
 
 ##### 2.1.1 Ingress Queue Manager
-- **역할**: 해당 포트로부터 들어오는 패킷 큐 관리
+- **역할**: 해당 포트로부터 들어오는 패킷의 Internal 포맷 변환 및 큐 관리
 - **주요 기능**:
   - AXIS Slave로 Ingress Port Manager로부터 패킷 수신
+    - AXIS.tuser에서 Internal Header 정보 추출 (채널 타입, 큐 번호, 패킷 타입 등)
+    - AXIS.tdata에서 Raw 데이터 수신
+  - **Internal Header 기반 포맷 변환**:
+    - Internal Header 정보를 분석하여 채널 타입, 큐, 패킷 타입 판단
+    - Raw 데이터를 Internal 포맷으로 변환
+    - **채널 타입별 적응형 저장**:
+      - **가변 Payload 채널**: Header/Payload 분리하여 1개 또는 여러 개 entry에 분산 저장
+        - Header Queue: Fixed entry size, 메타데이터 저장
+        - Payload Queue: 가변 길이 데이터 분산 저장
+      - **고정 Payload 채널**: 단일 entry에 패킷 전체 저장
+  - **패킷 내 크레딧 처리**: 
+    - 외부 Egressor가 패킷에 포함시킨 크레딧 정보 추출
+    - 큐별 Available Credit 공유 변수 증가 (Egress Queue Manager와 공유)
   - **연속적 패킷 처리**: 버퍼에서 쉬지 않고 패킷을 빼내어 처리
-  - 패킷 버퍼링 및 큐 관리
   - Routing & Switching Core로 패킷 전달
   - **무백프레셔 보장**: Ingress Port Manager로 백프레셔 신호 전송 금지
 - **인터페이스**: 
@@ -175,15 +166,30 @@ Switch Internal P2P Link는 포트 간 고성능 패킷 전달을 위한 내부 
   - Internal Bus (→ Routing & Switching Core)
 
 ##### 2.1.2 Egress Queue Manager  
-- **역할**: 해당 포트로 나가는 패킷 큐 관리
+- **역할**: 해당 포트로 나가는 패킷 큐 관리 및 크레딧 기반 스케줄링
 - **주요 기능**:
   - Routing & Switching Core로부터 패킷 수신
-  - 패킷 버퍼링 및 큐 관리
+  - **Queue별 채널 타입 적응 버퍼링** (각 큐마다 최소 2패킷 저장):
+    - **가변 Payload Queue**: Header/Payload 분리형 SRAM Circular Buffer
+      - Header Queue: Fixed entry size, 패킷 메타데이터 및 우선순위 정보 저장
+      - Payload Queue: 가변 길이 패킷 데이터 저장
+      - 포인터 연결: Header에 Payload 시작위치 및 크기 정보 저장
+    - **고정 Payload Queue**: 단일 SRAM Circular Buffer
+      - Fixed size entry로 패킷 전체 저장
+      - Header/Payload 분리 없이 단순 버퍼링
+  - **크레딧 기반 스케줄링 시스템**:
+    - **Available Credit 공유 변수 관리**: Ingress Queue Manager와 큐별 Available Credit 변수 공유
+    - **우선순위 기반 큐 선택**: 크레딧이 유효한 큐들 중 최고 우선순위 큐 선택
+    - **크레딧 차감 및 전송**: 전송 시 Available Credit 공유 변수 감소 후 해당 큐에서 패킷 추출
+    - **Queue별 독립 스케줄링**: 각 큐의 circular buffer에서 패킷 개별 관리
+  - **크레딧 반환 시스템**:
+    - **AXIS 전송 완료 감지**: Egress Port Manager로 패킷 전송 완료 확인
+    - **소스 포트 크레딧 반환**: 원래 패킷을 받았던 소스 포트의 Ingress Queue Manager로 크레딧 반환
   - AXIS Master로 Egress Port Manager에 패킷 전달
-  - 스케줄링 및 우선순위 처리
 - **인터페이스**: 
   - Internal Bus (← Routing & Switching Core)
   - AXIS Master (→ Egress Port Manager)
+  - Shared Variables (↔ Ingress Queue Manager, 큐별 Available Credit 공유)
 
 ### 3. AXI Switch (계층적 구조)
 - **역할**: 패킷 제어를 위한 계층적 통신 구조
@@ -221,14 +227,94 @@ Switch Internal P2P Link는 포트 간 고성능 패킷 전달을 위한 내부 
   - **크레딧 소비 추적**: 패킷 수신 시 크레딧 차감
   - **크레딧 순환 관리**: 패킷 전송 완료 시 소스 포트로 크레딧 반환
   - **크레딧 적립 통지**: 외부 Egressor에게 사용 가능한 크레딧 통지
+
+#### 4.1 Bandwidth Saturation을 위한 크레딧 계산
+대역폭 포화를 달성하기 위한 최적 크레딧 수는 다음 수식으로 계산됩니다:
+
+**기본 크레딧 계산 공식**:
+```
+Credits = ⌈(BW × RTT) / Packet_Size⌉ + Safety_Margin
+
+where:
+- BW: Link Bandwidth (bits/sec)
+- RTT: Round-Trip Time (sec) = Processing_Latency + Network_Propagation_Delay
+- Packet_Size: Average Packet Size (bits)
+- Safety_Margin: Buffer 여유분 (packets)
+```
+
+**세부 계산 요소**:
+```
+RTT = T_ingress_proc + T_switch_core + T_egress_proc + T_network_prop
+
+where:
+- T_ingress_proc: Ingress Port Manager 처리 지연
+- T_switch_core: Port Router 스위칭 지연  
+- T_egress_proc: Egress Port Manager 처리 지연
+- T_network_prop: 네트워크 전파 지연 (external)
+```
+
+**채널별 크레딧 최적화**:
+```
+가변 Payload 채널:
+Credits_var = ⌈(BW × RTT) / Avg_Packet_Size⌉ + Header_Overhead + Safety_Margin
+
+고정 Payload 채널:
+Credits_fix = ⌈(BW × RTT) / Fixed_Packet_Size⌉ + Safety_Margin
+```
+
+**실제 적용 예시**:
+
+**예시 1**: 1Gbps 링크, 1500B 평균 패킷, 10μs RTT
+```
+Credits = ⌈(1×10⁹ × 10×10⁻⁶) / (1500×8)⌉ + 2
+        = ⌈10,000 / 12,000⌉ + 2  
+        = 1 + 2 = 3 packets
+→ 최소 3개 크레딧으로 1Gbps 대역폭 포화 달성
+```
+
+**예시 2**: 10Gbps 링크, 9000B Jumbo 패킷, 5μs RTT  
+```
+Credits = ⌈(10×10⁹ × 5×10⁻⁶) / (9000×8)⌉ + 3
+        = ⌈50,000 / 72,000⌉ + 3
+        = 1 + 3 = 4 packets  
+→ 최소 4개 크레딧으로 10Gbps 대역폭 포화 달성
+```
+
+**예시 3**: 100Gbps 링크, 64B 최소 패킷, 1μs RTT
+```
+Credits = ⌈(100×10⁹ × 1×10⁻⁶) / (64×8)⌉ + 5
+        = ⌈100,000 / 512⌉ + 5
+        = 196 + 5 = 201 packets
+→ 최소 201개 크레딧으로 100Gbps 대역폭 포화 달성 (작은 패킷)
+```
+
+**성능 최적화 가이드라인**:
+- **고대역폭 + 작은 패킷**: 많은 크레딧 필요 (예시 3)
+- **저대역폭 + 큰 패킷**: 적은 크레딧으로 충분 (예시 1)  
+- **RTT 증가**: 비례적으로 크레딧 증가 필요
+- **Safety Margin**: 트래픽 변동성에 따라 10-50% 추가 권장
+
+**동적 크레딧 조정 예시**:
+```
+초기 설정: 10Gbps, 1500B 평균, 추정 RTT=8μs
+Initial_Credits = ⌈(10×10⁹ × 8×10⁻⁶) / (1500×8)⌉ + 3 = 7 packets
+
+실측 RTT=12μs 감지 시:
+Adjusted_Credits = ⌈(10×10⁹ × 12×10⁻⁶) / (1500×8)⌉ + 3 = 11 packets
+
+→ 동적으로 크레딧 4개 추가하여 성능 최적화 유지
+```
 - **크레딧 플로우**:
   1. **입력측**: 외부 Egressor → Ingress Port Manager (크레딧 소비)
-  2. **패킷 처리**: Port Router를 통한 패킷 라우팅
-  3. **출력측**: 외부 Ingressor → Egress Port Manager (큐별 크레딧 제공)
-  4. **스케줄링**: Egress Port Manager가 크레딧 유효 큐 중 우선순위 선택
-  5. **전송**: 선택된 큐에서 패킷 추출 및 외부 송신
-  6. **크레딧 반환**: 소스 Ingress Port Manager로 크레딧 복원
-  7. **크레딧 재적립**: 해당 외부 Egressor에게 크레딧 재할당
+  2. **패킷 내 크레딧**: 외부 Egressor가 패킷에 크레딧 정보 포함하여 전송
+  3. **패킷 처리**: Port Router를 통한 패킷 라우팅
+  4. **크레딧 추출**: Ingress Queue Manager가 패킷에서 크레딧 정보 추출
+  5. **크레딧 증가**: Available Credit 공유 변수 증가 (Egress Queue Manager와 공유)
+  6. **스케줄링**: Egress Queue Manager가 Available Credit 변수 확인 후 크레딧 유효 큐 중 우선순위 선택
+  7. **크레딧 감소**: 선택된 큐의 Available Credit 공유 변수 감소
+  8. **전송**: 선택된 큐에서 패킷 추출 및 AXIS 전송
+  9. **크레딧 반환**: Egress Queue Manager → 소스 포트의 Ingress Queue Manager로 크레딧 복원
+  10. **크레딧 재적립**: 해당 외부 Egressor에게 크레딧 재할당
 
 ### 5. CPU (Control Processing Unit)
 - **역할**: 시스템 전체의 최상위 제어 및 관리
@@ -240,7 +326,11 @@ Switch Internal P2P Link는 포트 간 고성능 패킷 전달을 위한 내부 
 - **주요 기능**:
   - 글로벌 시스템 설정 및 정책 관리
   - 라우팅 테이블 초기화 및 업데이트
-  - **크레딧 시스템 관리**: 크레딧 할당량 설정 및 모니터링
+  - **크레딧 시스템 관리**:
+    - 크레딧 할당량 설정 및 모니터링
+    - Bandwidth Saturation 크레딧 계산 및 최적화
+    - 채널별 크레딧 파라미터 조정 (가변/고정 Payload)
+    - RTT 측정 및 동적 크레딧 조정 알고리즘
   - 시스템 전체 성능 모니터링 및 최적화
   - 에러 상황 처리 및 시스템 복구
   - 외부 관리 시스템과의 인터페이스
@@ -332,39 +422,47 @@ Switch Internal P2P Link는 포트 간 고성능 패킷 전달을 위한 내부 
 #### 데이터 전송 경로 (Data Path)
 1. **크레딧 확인**: 외부 Egressor가 사용 가능한 크레딧 확인
 2. **외부 수신**: Ingress Port Manager가 외부 프로토콜로 패킷 수신 (크레딧 소비)
-3. **Ingress 버퍼링**: 채널 타입별 적응형 저장 (무손실 보장)
-   - **가변 Payload 채널**: Header Queue(메타데이터) + Payload Queue(패킷 데이터) 분리 저장
-   - **고정 Payload 채널**: 패킷 전체를 통째로 버퍼링
-4. **연속 처리**: Ingress Queue Manager가 채널 타입에 따른 패킷 처리
-   - **가변 Payload**: Header/Payload 포인터 연결로 패킷 재구성
-   - **고정 Payload**: 단순 패킷 추출로 최적화
-5. **인터페이스 추상화**: 외부 프로토콜별 처리 및 파싱 (Processing Latency Hiding)
-6. **포맷 변환**: 외부 포맷 → 통일된 Internal 포맷 변환 (추상화 완료)
+3. **Raw 데이터 버퍼링**: 외부 데이터를 가공 없이 Circular Buffer에 저장 (무손실 보장)
+   - 포맷 변환, 파싱, 분석 없이 Raw 형태 그대로 버퍼링
+   - 가변 크기 패킷을 그대로 저장 (고정/가변 패킷 모두 수용)
+   - 채널 타입이나 패킷 타입 구분 없이 단순 저장
+4. **기본 패킷 정보 추출**: Internal Header 생성을 위한 최소한의 패킷 분석
+5. **Internal Header 생성**: Circular Buffer에서 패킷 추출 시 내부 라우팅/버퍼링용 메타데이터 생성
+   - 채널 타입, 큐 번호, 패킷 타입 등 포함
 7. **AXIS 전송**: Ingress Port Manager (AXIS Master) → Ingress Queue Manager (AXIS Slave, 백프레셔 없음)
-8. **라우팅**: Routing & Switching Core가 목적지 분석 (내부 포맷 기반)
-9. **스위칭**: Internal Bus를 통해 목적지 Egress Queue Manager로 패킷 전달
-10. **큐잉**: Egress Queue Manager가 패킷 버퍼링 및 스케줄링
-11. **AXIS 전송**: Egress Queue Manager (AXIS Master) → Egress Port Manager (AXIS Slave)
-12. **Queue별 채널 타입 적응 버퍼링**: 채널 타입에 따른 버퍼링 (최소 2패킷)
+   - AXIS.tuser에 Internal Header 삽입 (채널 타입, 큐 번호, 패킷 타입 등)
+   - AXIS.tdata에 Raw 데이터 그대로 전송
+   - AXIS.tlast로 패킷 마지막 beat 표시 (burst 경계 구분)
+8. **Internal Header 분석**: Ingress Queue Manager가 AXIS.tuser에서 Internal Header 정보 추출
+9. **패킷 내 크레딧 처리**: 외부 Egressor가 패킷에 포함시킨 크레딧 정보 추출 및 Available Credit 공유 변수 증가
+10. **포맷 변환 및 분산 저장**: Internal Header 기반으로 Raw 데이터를 Internal 포맷으로 변환
+    - **가변 Payload 채널**: Header/Payload 분리하여 1개 또는 여러 개 entry에 분산 저장
+    - **고정 Payload 채널**: 단일 entry에 패킷 전체 저장
+11. **라우팅**: Routing & Switching Core가 목적지 분석 (내부 포맷 기반)
+12. **스위칭**: Internal Bus를 통해 목적지 Egress Queue Manager로 패킷 전달
+13. **큐잉**: Egress Queue Manager가 패킷 버퍼링 및 스케줄링
+14. **Queue별 채널 타입 적응 버퍼링**: Egress Queue Manager에서 채널 타입에 따른 버퍼링 (최소 2패킷)
     - **가변 Payload Queue**: Header/Payload Queue에 분리 저장
     - **고정 Payload Queue**: 패킷 전체를 통째로 저장
-13. **크레딧 확인**: 외부 Ingressor가 제공한 큐별 크레딧 상태 확인
-14. **우선순위 스케줄링**: 크레딧 유효한 큐들 중 최고 우선순위 큐 선택
+15. **크레딧 확인**: Egress Queue Manager가 Ingress Queue Manager와 공유하는 Available Credit 변수 확인
+16. **우선순위 스케줄링**: Egress Queue Manager가 크레딧 유효한 큐들 중 최고 우선순위 큐 선택
     - **가변 Payload**: Header Queue 우선순위 정보 활용
     - **고정 Payload**: 패킷 내 우선순위 정보 활용
-15. **크레딧 차감**: 선택된 큐의 전송 필요 크레딧 차감
-16. **패킷 추출**: 채널 타입에 따른 패킷 추출
+17. **크레딧 차감**: 선택된 큐의 Available Credit 공유 변수 감소
+18. **패킷 추출**: 채널 타입에 따른 패킷 추출
     - **가변 Payload**: Header 정보로 Payload 위치 확인 후 패킷 재구성
     - **고정 Payload**: 단순 패킷 추출
-17. **포맷 변환**: Internal 포맷 → 목적지 외부 프로토콜 포맷 변환 (추상화 역변환)
-18. **인터페이스 추상화**: 외부 프로토콜별 타이밍 및 제어 처리 (Processing Latency Hiding)
-19. **외부 송신**: 목적지 외부 Ingressor로 패킷 송신 완료
+19. **AXIS 전송**: Egress Queue Manager (AXIS Master) → Egress Port Manager (AXIS Slave)
+20. **단일 버퍼링**: Egress Port Manager에서 단일 Circular Buffer에 패킷 저장
+21. **포맷 변환**: Internal 포맷 → 목적지 외부 프로토콜 포맷 변환 (추상화 역변환)
+22. **인터페이스 추상화**: 외부 프로토콜별 타이밍 및 제어 처리 (Processing Latency Hiding)
+23. **외부 송신**: 목적지 외부 Egressor로 패킷 송신 완료
 
 #### 크레딧 반환 경로 (Credit Return Path)
-20. **전송 완료 감지**: Egress Port Manager가 패킷 송신 완료 확인
-21. **크레딧 반환**: 소스 Ingress Port Manager로 크레딧 반환 신호 전송
-22. **크레딧 복원**: Credit Management System이 크레딧 풀에 크레딧 복원
-23. **크레딧 적립**: 해당 외부 Egressor에게 사용 가능한 크레딧 적립 통지
+24. **AXIS 전송 완료 감지**: Egress Queue Manager가 Egress Port Manager로 패킷 전송 완료 확인
+25. **크레딧 반환**: Egress Queue Manager가 소스 포트의 Ingress Queue Manager로 크레딧 반환 신호 전송
+26. **크레딧 복원**: Credit Management System이 크레딧 풀에 크레딧 복원
+27. **크레딧 적립**: 해당 외부 Egressor에게 사용 가능한 크레딧 적립 통지
 
 ### 제어 플로우 (제어 경로)
 - **CPU**: 전체 시스템의 최상위 제어 엔티티
@@ -413,11 +511,18 @@ Switch Internal P2P Link는 포트 간 고성능 패킷 전달을 위한 내부 
 - [ ] 🎯 패킷 재구성 알고리즘 설계 (Header 기반 Payload 연결)
 - [ ] 🎯 Channel-Agnostic Queue 매핑 시스템 설계 (Queue N → Queue N)
 - [ ] 🎯 외부 Ingressor 크레딧 관리 시스템 설계 (큐별 크레딧 추적)
+- [ ] 🎯 Ingress Port Manager → Egress Queue Manager CSR Write 인터페이스 설계
 - [ ] 🎯 우선순위 기반 큐 스케줄링 알고리즘 설계 (Header Queue 우선순위 활용)
-- [ ] 🎯 크레딧 차감 및 패킷 재구성 메커니즘 설계
+- [ ] 🎯 크레딧 차감 및 패킷 재구성 메커니즘 설계 (Egress Queue Manager)
 - [ ] 🎯 Credit Management System 아키텍처 설계 (분산 크레딧 관리)
+- [ ] 🎯 Bandwidth Saturation 크레딧 계산 알고리즘 구현
+- [ ] 🎯 RTT 측정 시스템 설계 (Processing + Network 지연)
+- [ ] 🎯 동적 크레딧 조정 메커니즘 설계 (실시간 최적화)
+- [ ] 🎯 채널별 크레딧 최적화 알고리즘 (가변/고정 Payload)
 - [ ] 🎯 End-to-End 크레딧 순환 메커니즘 설계 (입력-출력 크레딧 플로우)
 - [ ] 🎯 외부 Egressor 크레딧 할당 및 관리 알고리즘 설계
+- [ ] 🎯 Egress Queue Manager 크레딧 반환 시스템 설계 (AXIS 전송 완료 감지)
+- [ ] 🎯 Egress Port Manager 단일 Circular Buffer 설계 (단순 버퍼링)
 - [ ] 🎯 SRAM Circular Buffer 아키텍처 설계 (Ingress/Egress Port Manager용)
 - [ ] 🎯 무백프레셔 Ingress 시스템 설계 (연속 처리 보장)
 - [ ] 🎯 Bandwidth Mismatch 해결 메커니즘 설계 (버퍼 크기, 임계값)
@@ -427,6 +532,12 @@ Switch Internal P2P Link는 포트 간 고성능 패킷 전달을 위한 내부 
 - [ ] 🎯 Ingress Port Manager 프로토콜별 추상화 모듈 설계
 - [ ] 🎯 Egress Port Manager 프로토콜별 추상화 모듈 설계
 - [ ] 🎯 Internal 패킷 포맷 정의 (통일된 내부 표준)
+- [ ] 🎯 Internal Header 구조 설계 (채널 타입, 큐 번호, 패킷 타입, 메타데이터)
+- [ ] 🎯 AXIS.tuser 필드 정의 및 Internal Header 매핑 규칙
+- [ ] 🎯 AXIS.tlast 기반 burst 경계 처리 메커니즘 설계
+- [ ] 🎯 Ingress Port Manager Raw 데이터 버퍼링 시스템 설계 (가공 없는 저장)
+- [ ] 🎯 Ingress Queue Manager Internal Header 분석 및 포맷 변환 시스템 설계
+- [ ] 🎯 채널 타입별 분산 저장 메커니즘 설계 (1개 또는 여러 개 entry)
 - [ ] 🎯 외부↔내부 포맷 변환 규칙 및 매핑 테이블 설계
 - [ ] 🎯 Ingress/Egress Port Manager AXIS 인터페이스 상세 정의
 - [ ] 🎯 Ingress Queue Manager 큐 구조 및 AXIS 인터페이스 설계
@@ -450,9 +561,17 @@ Switch Internal P2P Link는 포트 간 고성능 패킷 전달을 위한 내부 
 - [ ] 🔍 패킷 재구성 알고리즘 정확성 검증 (데이터 일치성)
 - [ ] 🔍 Channel-Agnostic Queue 매핑 정확성 검증 (Queue N → Queue N)
 - [ ] 🔍 외부 Ingressor 크레딧 관리 정확성 검증 (큐별 크레딧 추적)
+- [ ] 🔍 Ingress Port Manager → Egress Queue Manager CSR Write 인터페이스 검증
 - [ ] 🔍 우선순위 기반 스케줄링 공정성 테스트 (Header Queue 우선순위 정보 활용)
-- [ ] 🔍 크레딧 차감 및 패킷 재구성 동기화 검증
+- [ ] 🔍 크레딧 차감 및 패킷 재구성 동기화 검증 (Egress Queue Manager)
+- [ ] 🔍 Egress Queue Manager 크레딧 반환 시스템 정확성 검증
+- [ ] 🔍 Egress Port Manager 단일 Circular Buffer 성능 검증
 - [ ] 🔍 Credit Management System 정확성 검증 (크레딧 누수 방지)
+- [ ] 🔍 Bandwidth Saturation 크레딧 계산 정확성 검증
+- [ ] 🔍 RTT 측정 정밀도 및 실시간 업데이트 성능 테스트
+- [ ] 🔍 동적 크레딧 조정 알고리즘 효과성 검증 (대역폭 활용률)
+- [ ] 🔍 채널별 크레딧 최적화 성능 비교 (가변 vs 고정 Payload)
+- [ ] 🔍 크레딧 부족/과잉 상황에서의 시스템 동작 검증
 - [ ] 🔍 End-to-End 크레딧 순환 무결성 테스트 (입력-출력 크레딧 매칭)
 - [ ] 🔍 무백프레셔 Ingress 동작 검증 (연속 수신 보장)
 - [ ] 🔍 크레딧 기반 플로우 제어 성능 측정 (처리량, 공정성)
@@ -465,6 +584,14 @@ Switch Internal P2P Link는 포트 간 고성능 패킷 전달을 위한 내부 
 - [ ] 🔍 외부 인터페이스 추상화 효과성 검증 (프로토콜 독립성)
 - [ ] 🔍 다중 외부 프로토콜 지원 호환성 테스트
 - [ ] 🔍 외부↔내부 포맷 변환 정확성 및 성능 검증
+- [ ] 🔍 Internal Header 생성 및 AXIS.tuser 매핑 정확성 검증
+- [ ] 🔍 AXIS.tlast 기반 burst 경계 처리 정확성 테스트
+- [ ] 🔍 Internal Header 정보 무결성 검증 (채널 타입, 큐 번호, 패킷 타입)
+- [ ] 🔍 Ingress Port Manager Raw 데이터 버퍼링 정확성 검증 (가공 없는 저장)
+- [ ] 🔍 Ingress Queue Manager Internal Header 분석 정확성 검증
+- [ ] 🔍 채널 타입별 포맷 변환 및 분산 저장 정확성 테스트
+- [ ] 🔍 Raw 데이터 → Internal 포맷 변환 무결성 검증
+- [ ] 🔍 Circular Buffer에서 Internal Header 생성 타이밍 검증
 - [ ] 🔍 인터페이스 변경 시 내부 시스템 영향 최소화 검증
 - [ ] 🔍 외부 인터페이스 프로토콜 사양 (PCIe, Ethernet, CXL, AXI Stream 등)
 - [ ] 🔍 AXIS 인터페이스 타이밍 및 핸드셰이크 메커니즘
