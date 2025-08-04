@@ -150,11 +150,8 @@ Switch Internal P2P Link는 포트 간 고성능 패킷 전달을 위한 내부 
   - **Internal Header 기반 포맷 변환**:
     - Internal Header 정보를 분석하여 채널 타입, 큐, 패킷 타입 판단
     - Raw 데이터를 Internal 포맷으로 변환
-    - **채널 타입별 적응형 저장**:
-      - **가변 Payload 채널**: Header/Payload 분리하여 1개 또는 여러 개 entry에 분산 저장
-        - Header Queue: Fixed entry size, 메타데이터 저장
-        - Payload Queue: 가변 길이 데이터 분산 저장
-      - **고정 Payload 채널**: 단일 entry에 패킷 전체 저장
+    - **통합 패킷 저장**: Header와 Payload 구분 없이 변환된 패킷을 통째로 큐에 저장
+    - **큐별 독립 관리**: 각 큐마다 독립적인 버퍼에 패킷 저장
   - **패킷 내 크레딧 처리**: 
     - 외부 Egressor가 패킷에 포함시킨 크레딧 정보 추출
     - 큐별 Available Credit 공유 변수 증가 (Egress Queue Manager와 공유)
@@ -169,14 +166,10 @@ Switch Internal P2P Link는 포트 간 고성능 패킷 전달을 위한 내부 
 - **역할**: 해당 포트로 나가는 패킷 큐 관리 및 크레딧 기반 스케줄링
 - **주요 기능**:
   - Routing & Switching Core로부터 패킷 수신
-  - **Queue별 채널 타입 적응 버퍼링** (각 큐마다 최소 2패킷 저장):
-    - **가변 Payload Queue**: Header/Payload 분리형 SRAM Circular Buffer
-      - Header Queue: Fixed entry size, 패킷 메타데이터 및 우선순위 정보 저장
-      - Payload Queue: 가변 길이 패킷 데이터 저장
-      - 포인터 연결: Header에 Payload 시작위치 및 크기 정보 저장
-    - **고정 Payload Queue**: 단일 SRAM Circular Buffer
-      - Fixed size entry로 패킷 전체 저장
-      - Header/Payload 분리 없이 단순 버퍼링
+  - **큐별 통합 패킷 버퍼링** (각 큐마다 최소 2패킷 저장):
+    - **통합 패킷 관리**: Header와 Payload 구분 없이 패킷 전체를 큐별로 관리
+    - **큐별 독립 버퍼**: 각 큐마다 독립적인 SRAM Circular Buffer
+    - **우선순위 정보**: 패킷 내 우선순위 정보를 활용한 스케줄링
   - **크레딧 기반 스케줄링 시스템**:
     - **Available Credit 공유 변수 관리**: Ingress Queue Manager와 큐별 Available Credit 변수 공유
     - **우선순위 기반 큐 선택**: 크레딧이 유효한 큐들 중 최고 우선순위 큐 선택
@@ -435,23 +428,18 @@ Adjusted_Credits = ⌈(10×10⁹ × 12×10⁻⁶) / (1500×8)⌉ + 3 = 11 packet
    - AXIS.tlast로 패킷 마지막 beat 표시 (burst 경계 구분)
 8. **Internal Header 분석**: Ingress Queue Manager가 AXIS.tuser에서 Internal Header 정보 추출
 9. **패킷 내 크레딧 처리**: 외부 Egressor가 패킷에 포함시킨 크레딧 정보 추출 및 Available Credit 공유 변수 증가
-10. **포맷 변환 및 분산 저장**: Internal Header 기반으로 Raw 데이터를 Internal 포맷으로 변환
-    - **가변 Payload 채널**: Header/Payload 분리하여 1개 또는 여러 개 entry에 분산 저장
-    - **고정 Payload 채널**: 단일 entry에 패킷 전체 저장
+10. **포맷 변환 및 저장**: Internal Header 기반으로 Raw 데이터를 Internal 포맷으로 변환
+    - **통합 패킷 저장**: Header와 Payload 구분 없이 변환된 패킷을 통째로 큐에 저장
 11. **라우팅**: Routing & Switching Core가 목적지 분석 (내부 포맷 기반)
 12. **스위칭**: Internal Bus를 통해 목적지 Egress Queue Manager로 패킷 전달
 13. **큐잉**: Egress Queue Manager가 패킷 버퍼링 및 스케줄링
-14. **Queue별 채널 타입 적응 버퍼링**: Egress Queue Manager에서 채널 타입에 따른 버퍼링 (최소 2패킷)
-    - **가변 Payload Queue**: Header/Payload Queue에 분리 저장
-    - **고정 Payload Queue**: 패킷 전체를 통째로 저장
+14. **큐별 통합 패킷 버퍼링**: Egress Queue Manager에서 큐별 통합 관리 (최소 2패킷)
+    - **통합 패킷 관리**: Header와 Payload 구분 없이 패킷 전체를 큐별로 저장
 15. **크레딧 확인**: Egress Queue Manager가 Ingress Queue Manager와 공유하는 Available Credit 변수 확인
 16. **우선순위 스케줄링**: Egress Queue Manager가 크레딧 유효한 큐들 중 최고 우선순위 큐 선택
-    - **가변 Payload**: Header Queue 우선순위 정보 활용
-    - **고정 Payload**: 패킷 내 우선순위 정보 활용
+    - **패킷 내 우선순위 정보**: 저장된 패킷의 우선순위 정보를 활용한 스케줄링
 17. **크레딧 차감**: 선택된 큐의 Available Credit 공유 변수 감소
-18. **패킷 추출**: 채널 타입에 따른 패킷 추출
-    - **가변 Payload**: Header 정보로 Payload 위치 확인 후 패킷 재구성
-    - **고정 Payload**: 단순 패킷 추출
+18. **패킷 추출**: 선택된 큐에서 통합 저장된 패킷 추출
 19. **AXIS 전송**: Egress Queue Manager (AXIS Master) → Egress Port Manager (AXIS Slave)
 20. **단일 버퍼링**: Egress Port Manager에서 단일 Circular Buffer에 패킷 저장
 21. **포맷 변환**: Internal 포맷 → 목적지 외부 프로토콜 포맷 변환 (추상화 역변환)
