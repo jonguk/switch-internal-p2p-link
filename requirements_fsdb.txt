@@ -1,0 +1,29 @@
+# FSDB Tools Requirements
+# FSDB 파일 분석을 위한 Python 패키지 의존성
+
+# Core FSDB reading library
+pyfsdb>=2.4.0
+
+# Data analysis and manipulation
+pandas>=2.0.0
+numpy>=1.20.0
+
+# Visualization
+matplotlib>=3.5.0
+
+# Optional: Enhanced data processing
+scipy>=1.7.0
+
+# Development and testing
+pytest>=6.0.0
+pytest-cov>=2.10.0
+unittest-xml-reporting>=3.0.0
+
+# Documentation
+sphinx>=4.0.0
+sphinx-rtd-theme>=1.0.0
+
+# Code quality
+black>=21.0.0
+flake8>=3.9.0
+mypy>=0.910

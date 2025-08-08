@@ -1,0 +1,435 @@
+// Switch Internal P2P Link CSR Register Map
+// SystemRDL specification for switch control and status registers
+
+addrmap switch_csr {
+    name = "Switch Internal P2P Link CSR";
+    desc = "Control and Status Registers for the internal P2P switch";
+    
+    default regwidth = 32;
+    default accesswidth = 32;
+    default alignment = 4;
+    
+    // Device identification and version
+    reg {
+        name = "Device ID Register";
+        desc = "Device identification and version information";
+        
+        field {
+            name = "DEVICE_ID";
+            desc = "Device identifier";
+            sw = r; hw = na;
+            reset = 0x1234;
+        } device_id[15:0];
+        
+        field {
+            name = "VERSION";
+            desc = "Version number";
+            sw = r; hw = na;
+            reset = 0x0100; // Version 1.0
+        } version[31:16];
+    } device_id_reg @ 0x000;
+    
+    // Control register
+    reg {
+        name = "Control Register";
+        desc = "Global control settings";
+        
+        field {
+            name = "ENABLE";
+            desc = "Global enable for the switch";
+            sw = rw; hw = r;
+            reset = 0;
+        } enable[0:0];
+        
+        field {
+            name = "RESET";
+            desc = "Software reset (self-clearing)";
+            sw = w; hw = r;
+            reset = 0;
+            onwrite = woclr;
+        } reset[1:1];
+        
+        field {
+            name = "DEBUG_MODE";
+            desc = "Enable debug mode";
+            sw = rw; hw = r;
+            reset = 0;
+        } debug_mode[2:2];
+        
+        field {
+            name = "LOOPBACK";
+            desc = "Enable internal loopback";
+            sw = rw; hw = r;
+            reset = 0;
+        } loopback[3:3];
+        
+        field {
+            name = "PORT_COUNT";
+            desc = "Number of active ports";
+            sw = rw; hw = r;
+            reset = 4;
+        } port_count[7:4];
+        
+        field {
+            name = "RESERVED";
+            desc = "Reserved bits";
+            sw = r; hw = na;
+            reset = 0;
+        } reserved[31:8];
+    } control_reg @ 0x004;
+    
+    // Status register
+    reg {
+        name = "Status Register";
+        desc = "Global status information";
+        
+        field {
+            name = "READY";
+            desc = "Switch is ready for operation";
+            sw = r; hw = w;
+            reset = 0;
+        } ready[0:0];
+        
+        field {
+            name = "ERROR";
+            desc = "Error condition detected";
+            sw = r; hw = w;
+            reset = 0;
+        } error[1:1];
+        
+        field {
+            name = "ACTIVE_PORTS";
+            desc = "Number of currently active ports";
+            sw = r; hw = w;
+            reset = 0;
+        } active_ports[7:4];
+        
+        field {
+            name = "PACKET_COUNT";
+            desc = "Total packet count (lower 16 bits)";
+            sw = r; hw = w;
+            reset = 0;
+        } packet_count[23:8];
+        
+        field {
+            name = "RESERVED";
+            desc = "Reserved bits";
+            sw = r; hw = na;
+            reset = 0;
+        } reserved[31:24];
+    } status_reg @ 0x008;
+    
+    // Interrupt control
+    reg {
+        name = "Interrupt Enable Register";
+        desc = "Interrupt enable control";
+        
+        field {
+            name = "ERROR_INT_EN";
+            desc = "Enable error interrupt";
+            sw = rw; hw = r;
+            reset = 0;
+        } error_int_en[0:0];
+        
+        field {
+            name = "READY_INT_EN";
+            desc = "Enable ready interrupt";
+            sw = rw; hw = r;
+            reset = 0;
+        } ready_int_en[1:1];
+        
+        field {
+            name = "PACKET_INT_EN";
+            desc = "Enable packet count interrupt";
+            sw = rw; hw = r;
+            reset = 0;
+        } packet_int_en[2:2];
+        
+        field {
+            name = "RESERVED";
+            desc = "Reserved bits";
+            sw = r; hw = na;
+            reset = 0;
+        } reserved[31:3];
+    } interrupt_enable_reg @ 0x00C;
+    
+    // Interrupt status (write 1 to clear)
+    reg {
+        name = "Interrupt Status Register";
+        desc = "Interrupt status (write 1 to clear)";
+        
+        field {
+            name = "ERROR_INT";
+            desc = "Error interrupt status";
+            sw = rw; hw = w;
+            reset = 0;
+            onwrite = woclr;
+        } error_int[0:0];
+        
+        field {
+            name = "READY_INT";
+            desc = "Ready interrupt status";
+            sw = rw; hw = w;
+            reset = 0;
+            onwrite = woclr;
+        } ready_int[1:1];
+        
+        field {
+            name = "PACKET_INT";
+            desc = "Packet count interrupt status";
+            sw = rw; hw = w;
+            reset = 0;
+            onwrite = woclr;
+        } packet_int[2:2];
+        
+        field {
+            name = "RESERVED";
+            desc = "Reserved bits";
+            sw = r; hw = na;
+            reset = 0;
+        } reserved[31:3];
+    } interrupt_status_reg @ 0x010;
+    
+    // Port configuration array (4 ports)
+    reg {
+        name = "Port Configuration Register";
+        desc = "Individual port configuration";
+        
+        field {
+            name = "PORT_ENABLE";
+            desc = "Enable this port";
+            sw = rw; hw = r;
+            reset = 1;
+        } port_enable[0:0];
+        
+        field {
+            name = "PORT_PRIORITY";
+            desc = "Port priority (0=highest)";
+            sw = rw; hw = r;
+            reset = 0;
+        } port_priority[3:1];
+        
+        field {
+            name = "PORT_TYPE";
+            desc = "Port type: 0=CPU, 1=External, 2=Internal";
+            sw = rw; hw = r;
+            reset = 1;
+        } port_type[5:4];
+        
+        field {
+            name = "FLOW_CONTROL";
+            desc = "Enable flow control";
+            sw = rw; hw = r;
+            reset = 1;
+        } flow_control[6:6];
+        
+        field {
+            name = "RESERVED";
+            desc = "Reserved bits";
+            sw = r; hw = na;
+            reset = 0;
+        } reserved[31:7];
+    } port_config_reg[4] @ 0x020 += 0x4;
+    
+    // Port status array (4 ports)
+    reg {
+        name = "Port Status Register";
+        desc = "Individual port status";
+        
+        field {
+            name = "PORT_ACTIVE";
+            desc = "Port is active";
+            sw = r; hw = w;
+            reset = 0;
+        } port_active[0:0];
+        
+        field {
+            name = "PORT_ERROR";
+            desc = "Port error condition";
+            sw = r; hw = w;
+            reset = 0;
+        } port_error[1:1];
+        
+        field {
+            name = "LINK_UP";
+            desc = "Link is up";
+            sw = r; hw = w;
+            reset = 0;
+        } link_up[2:2];
+        
+        field {
+            name = "TX_BUSY";
+            desc = "Transmit path busy";
+            sw = r; hw = w;
+            reset = 0;
+        } tx_busy[3:3];
+        
+        field {
+            name = "RX_READY";
+            desc = "Receive path ready";
+            sw = r; hw = w;
+            reset = 1;
+        } rx_ready[4:4];
+        
+        field {
+            name = "PACKET_COUNT";
+            desc = "Port packet count";
+            sw = r; hw = w;
+            reset = 0;
+        } packet_count[15:8];
+        
+        field {
+            name = "RESERVED";
+            desc = "Reserved bits";
+            sw = r; hw = na;
+            reset = 0;
+        } reserved[31:16];
+    } port_status_reg[4] @ 0x040 += 0x4;
+    
+    // Queue manager configuration
+    reg {
+        name = "Queue Manager Configuration";
+        desc = "Queue manager settings";
+        
+        field {
+            name = "QUEUE_DEPTH";
+            desc = "Queue depth (power of 2)";
+            sw = rw; hw = r;
+            reset = 6; // 2^6 = 64 entries
+        } queue_depth[3:0];
+        
+        field {
+            name = "QUEUE_COUNT";
+            desc = "Number of queues per port";
+            sw = rw; hw = r;
+            reset = 4;
+        } queue_count[7:4];
+        
+        field {
+            name = "BUFFER_SIZE";
+            desc = "Buffer size (in KB)";
+            sw = rw; hw = r;
+            reset = 16; // 16KB
+        } buffer_size[15:8];
+        
+        field {
+            name = "RESERVED";
+            desc = "Reserved bits";
+            sw = r; hw = na;
+            reset = 0;
+        } reserved[31:16];
+    } queue_config_reg @ 0x060;
+    
+    // Performance counters
+    reg {
+        name = "Performance Counter";
+        desc = "Various performance counters";
+        
+        field {
+            name = "TOTAL_PACKETS";
+            desc = "Total packets processed";
+            sw = r; hw = w;
+            reset = 0;
+        } total_packets[31:0];
+    } perf_total_packets @ 0x080;
+    
+    reg {
+        name = "Error Counter";
+        desc = "Total error count";
+        
+        field {
+            name = "ERROR_COUNT";
+            desc = "Total errors detected";
+            sw = r; hw = w;
+            reset = 0;
+        } error_count[31:0];
+    } perf_error_count @ 0x084;
+    
+    reg {
+        name = "Bandwidth Counter";
+        desc = "Bandwidth utilization";
+        
+        field {
+            name = "BANDWIDTH_UTIL";
+            desc = "Bandwidth utilization percentage";
+            sw = r; hw = w;
+            reset = 0;
+        } bandwidth_util[7:0];
+        
+        field {
+            name = "RESERVED";
+            desc = "Reserved bits";
+            sw = r; hw = na;
+            reset = 0;
+        } reserved[31:8];
+    } perf_bandwidth @ 0x088;
+    
+    // Debug registers
+    reg {
+        name = "Debug Control";
+        desc = "Debug control settings";
+        
+        field {
+            name = "TRACE_ENABLE";
+            desc = "Enable packet tracing";
+            sw = rw; hw = r;
+            reset = 0;
+        } trace_enable[0:0];
+        
+        field {
+            name = "TRACE_PORT_SEL";
+            desc = "Select port for tracing";
+            sw = rw; hw = r;
+            reset = 0;
+        } trace_port_sel[3:1];
+        
+        field {
+            name = "BREAKPOINT_EN";
+            desc = "Enable breakpoint";
+            sw = rw; hw = r;
+            reset = 0;
+        } breakpoint_en[4:4];
+        
+        field {
+            name = "RESERVED";
+            desc = "Reserved bits";
+            sw = r; hw = na;
+            reset = 0;
+        } reserved[31:5];
+    } debug_control_reg @ 0x100;
+    
+    reg {
+        name = "Debug Status";
+        desc = "Debug status information";
+        
+        field {
+            name = "TRACE_ACTIVE";
+            desc = "Tracing is active";
+            sw = r; hw = w;
+            reset = 0;
+        } trace_active[0:0];
+        
+        field {
+            name = "BREAKPOINT_HIT";
+            desc = "Breakpoint was hit";
+            sw = rw; hw = w;
+            reset = 0;
+            onwrite = woclr;
+        } breakpoint_hit[1:1];
+        
+        field {
+            name = "TRACE_OVERFLOW";
+            desc = "Trace buffer overflow";
+            sw = rw; hw = w;
+            reset = 0;
+            onwrite = woclr;
+        } trace_overflow[2:2];
+        
+        field {
+            name = "RESERVED";
+            desc = "Reserved bits";
+            sw = r; hw = na;
+            reset = 0;
+        } reserved[31:3];
+    } debug_status_reg @ 0x104;
+};

@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FC4SC 커버리지 리포트 - Ingress Port Manager</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 30px;
+            background: #f8f9fa;
+        }
+
+        .summary-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+
+        .summary-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .summary-card h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .summary-card .value {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #28a745;
+            margin-bottom: 5px;
+        }
+
+        .summary-card .label {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .coverage-item {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .coverage-header {
+            background: #f8f9fa;
+            padding: 15px 20px;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .coverage-header h3 {
+            color: #333;
+            margin: 0;
+            flex-grow: 1;
+        }
+
+        .coverage-percentage {
+            background: #28a745;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        .coverage-details {
+            padding: 20px;
+        }
+
+        .coverage-bar {
+            background: #e9ecef;
+            height: 20px;
+            border-radius: 10px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+
+        .coverage-fill {
+            background: linear-gradient(90deg, #28a745, #20c997);
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.8s ease;
+        }
+
+        .packet-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .packet-item {
+            background: #f8f9fa;
+            padding: 10px 15px;
+            border-radius: 5px;
+            border-left: 4px solid #667eea;
+        }
+
+        .packet-item strong {
+            color: #333;
+        }
+
+        .cross-coverage {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .cross-coverage h3 {
+            margin-bottom: 10px;
+        }
+
+        .cross-coverage .value {
+            font-size: 2em;
+            font-weight: bold;
+        }
+
+        .footer {
+            background: #343a40;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .footer p {
+            margin-bottom: 10px;
+        }
+
+        .timestamp {
+            color: #adb5bd;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 FC4SC 커버리지 리포트</h1>
+            <p>Ingress Port Manager 검증 결과</p>
+        </div>
+
+        <div class="summary">
+            <div class="summary-card">
+                <h3>전체 커버리지</h3>
+                <div class="value">100.0%</div>
+                <div class="label">목표: 75%</div>
+            </div>
+            <div class="summary-card">
+                <h3>총 샘플</h3>
+                <div class="value">86</div>
+                <div class="label">트랜잭션</div>
+            </div>
+            <div class="summary-card">
+                <h3>패킷 처리</h3>
+                <div class="value">43</div>
+                <div class="label">송신/수신</div>
+            </div>
+            <div class="summary-card">
+                <h3>테스트 상태</h3>
+                <div class="value">✅</div>
+                <div class="label">PASSED</div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="section">
+                <h2>📊 Coverpoint 세부 결과</h2>
+                
+                <div class="coverage-item">
+                    <div class="coverage-header">
+                        <h3>🎯 목적지 포트 (8/8)</h3>
+                        <div class="coverage-percentage">100.0%</div>
+                    </div>
+                    <div class="coverage-details">
+                        <div class="coverage-bar">
+                            <div class="coverage-fill" style="width: 100%"></div>
+                        </div>
+                        <div class="packet-grid">
+                            <div class="packet-item"><strong>Port 1:</strong> 6 packets</div>
+                            <div class="packet-item"><strong>Port 2:</strong> 22 packets</div>
+                            <div class="packet-item"><strong>Port 3:</strong> 10 packets</div>
+                            <div class="packet-item"><strong>Port 4:</strong> 16 packets</div>
+                            <div class="packet-item"><strong>Port 5:</strong> 8 packets</div>
+                            <div class="packet-item"><strong>Port 6:</strong> 8 packets</div>
+                            <div class="packet-item"><strong>Port 7:</strong> 6 packets</div>
+                            <div class="packet-item"><strong>Port 8:</strong> 10 packets</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="coverage-item">
+                    <div class="coverage-header">
+                        <h3>📦 패킷 크기 (4/4)</h3>
+                        <div class="coverage-percentage">100.0%</div>
+                    </div>
+                    <div class="coverage-details">
+                        <div class="coverage-bar">
+                            <div class="coverage-fill" style="width: 100%"></div>
+                        </div>
+                        <div class="packet-grid">
+                            <div class="packet-item"><strong>Small:</strong> 34 packets</div>
+                            <div class="packet-item"><strong>Medium:</strong> 34 packets</div>
+                            <div class="packet-item"><strong>Large:</strong> 14 packets</div>
+                            <div class="packet-item"><strong>Huge:</strong> 4 packets</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="coverage-item">
+                    <div class="coverage-header">
+                        <h3>🔄 채널 타입 (2/2)</h3>
+                        <div class="coverage-percentage">100.0%</div>
+                    </div>
+                    <div class="coverage-details">
+                        <div class="coverage-bar">
+                            <div class="coverage-fill" style="width: 100%"></div>
+                        </div>
+                        <div class="packet-grid">
+                            <div class="packet-item"><strong>LOW_PRIORITY:</strong> 64 packets</div>
+                            <div class="packet-item"><strong>HIGH_PRIORITY:</strong> 22 packets</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="coverage-item">
+                    <div class="coverage-header">
+                        <h3>🗂️ 큐 ID (4/4)</h3>
+                        <div class="coverage-percentage">100.0%</div>
+                    </div>
+                    <div class="coverage-details">
+                        <div class="coverage-bar">
+                            <div class="coverage-fill" style="width: 100%"></div>
+                        </div>
+                        <div class="packet-grid">
+                            <div class="packet-item"><strong>Queue 0:</strong> 40 packets</div>
+                            <div class="packet-item"><strong>Queue 1:</strong> 18 packets</div>
+                            <div class="packet-item"><strong>Queue 2:</strong> 18 packets</div>
+                            <div class="packet-item"><strong>Queue 3:</strong> 10 packets</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cross-coverage">
+                    <h3>🔀 크로스 커버리지</h3>
+                    <div class="value">22</div>
+                    <p>목적지 × 크기 조합</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p><strong>🎉 테스트 결과: PASSED</strong></p>
+            <p>FC4SC-Style 구현으로 100% 커버리지 달성</p>
+            <p class="timestamp">생성 시간: 2024-08-06 16:02 KST</p>
+        </div>
+    </div>
+
+    <script>
+        // 페이지 로드 시 애니메이션 효과
+        document.addEventListener('DOMContentLoaded', function() {
+            const coverageBars = document.querySelectorAll('.coverage-fill');
+            
+            // 커버리지 바 애니메이션
+            setTimeout(() => {
+                coverageBars.forEach(bar => {
+                    bar.style.width = bar.style.width || '100%';
+                });
+            }, 500);
+        });
+    </script>
+</body>
+</html>

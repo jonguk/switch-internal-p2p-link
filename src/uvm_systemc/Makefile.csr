@@ -1,0 +1,133 @@
+# CSR TLM UVM Test Makefile
+# UVM SystemC 환경에서 CSR TLM 모델을 검증하는 Makefile
+
+# 기본 설정
+SYSTEMC_HOME ?= /usr/local/systemc
+UVM_SYSTEMC_HOME ?= /usr/local/uvm-systemc
+
+# 컴파일러 설정 (실제 GCC 사용)
+CXX = /opt/homebrew/Cellar/gcc/15.1.0/bin/g++-15
+CXXFLAGS = -std=c++17 -Wall -Wextra -O2 -g
+CXXFLAGS += -I$(SYSTEMC_HOME)/include
+CXXFLAGS += -I$(UVM_SYSTEMC_HOME)/include
+CXXFLAGS += -I./fc4sc/includes
+CXXFLAGS += -I../../generated
+CXXFLAGS += -DNDEBUG
+CXXFLAGS += -DSC_INCLUDE_DYNAMIC_PROCESSES
+
+# 링커 설정 (macOS/Linux 호환)
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S),Darwin)
+    LDFLAGS = -L$(SYSTEMC_HOME)/lib
+    LDFLAGS += -L$(UVM_SYSTEMC_HOME)/lib-macosarm64
+else
+    LDFLAGS = -L$(SYSTEMC_HOME)/lib-linux64
+    LDFLAGS += -L$(UVM_SYSTEMC_HOME)/lib-linux64
+endif
+LDLIBS = -lsystemc -luvm-systemc -lm -lpthread
+
+# 소스 파일들
+CSR_TLM_SOURCES = ../../generated/switch_csr_csr_tlm.cpp
+UVM_TEST_SOURCES = tests/csr_tlm_uvm_test.cpp
+FC4SC_SOURCES = fc4sc/includes/fc4sc.hpp
+
+# 타겟들
+TARGET_CSR_UVM = build/csr_tlm_uvm_test
+TARGET_CSR_BASIC = build/csr_basic_test
+TARGET_CSR_FC4SC = build/csr_fc4sc_simple_test
+
+# 오브젝트 파일들
+CSR_TLM_OBJECTS = build/switch_csr_csr_tlm.o
+UVM_TEST_OBJECTS = build/csr_tlm_uvm_test.o
+
+# 기본 타겟
+all: $(TARGET_CSR_UVM)
+
+# 빌드 디렉토리 생성
+build:
+	mkdir -p build
+
+# CSR TLM UVM 테스트
+$(TARGET_CSR_UVM): build $(CSR_TLM_OBJECTS) $(UVM_TEST_OBJECTS)
+	$(CXX) $(CSR_TLM_OBJECTS) $(UVM_TEST_OBJECTS) $(LDFLAGS) $(LDLIBS) -o $@
+
+# CSR TLM 모델 컴파일
+build/switch_csr_csr_tlm.o: ../../generated/switch_csr_csr_tlm.cpp ../../generated/switch_csr_csr_tlm.h | build
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+# UVM 테스트 컴파일
+build/csr_tlm_uvm_test.o: tests/csr_tlm_uvm_test.cpp | build
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+# 기본 CSR 테스트 (UVM 없이)
+$(TARGET_CSR_BASIC): build $(CSR_TLM_OBJECTS) ../../generated/test_csr_tlm.cpp
+	$(CXX) $(CXXFLAGS) $(CSR_TLM_OBJECTS) ../../generated/test_csr_tlm.cpp $(LDFLAGS) -lsystemc -lm -o $@
+
+# FC4SC CSR 테스트
+$(TARGET_CSR_FC4SC): build $(CSR_TLM_OBJECTS) tests/csr_fc4sc_simple_test.cpp
+	$(CXX) $(CXXFLAGS) $(CSR_TLM_OBJECTS) tests/csr_fc4sc_simple_test.cpp $(LDFLAGS) -lsystemc -lm -o $@
+
+# 테스트 실행
+run-uvm: $(TARGET_CSR_UVM)
+	cd build && ./csr_tlm_uvm_test
+
+run-basic: $(TARGET_CSR_BASIC)
+	cd build && ./csr_basic_test
+
+run-fc4sc: $(TARGET_CSR_FC4SC)
+	cd build && ./csr_fc4sc_simple_test
+
+# VCD 트레이스와 함께 실행
+run-uvm-vcd: $(TARGET_CSR_UVM)
+	cd build && ./csr_tlm_uvm_test --vcd-file=csr_uvm_test.vcd
+
+# FC4SC 커버리지 리포트 생성
+coverage-report: run-uvm
+	@echo "Generating FC4SC coverage report..."
+	@cd build && if [ -f fc4sc_coverage.xml ]; then \
+		echo "=== FC4SC Coverage Summary ==="; \
+		echo "Coverage report found"; \
+	else \
+		echo "No FC4SC coverage file found"; \
+	fi
+
+# 정리
+clean:
+	rm -rf build/
+
+# 도움말
+help:
+	@echo "Available targets:"
+	@echo "  all          - Build UVM CSR test"
+	@echo "  run-uvm      - Run UVM CSR test"
+	@echo "  run-basic    - Run basic CSR test (no UVM)"
+	@echo "  run-uvm-vcd  - Run UVM test with VCD trace"
+	@echo "  coverage-report - Generate FC4SC coverage report"
+	@echo "  clean        - Remove build artifacts"
+	@echo "  help         - Show this help"
+	@echo ""
+	@echo "Environment variables:"
+	@echo "  SYSTEMC_HOME     - Path to SystemC installation"
+	@echo "  UVM_SYSTEMC_HOME - Path to UVM SystemC installation"
+
+# 의존성 확인
+check-deps:
+	@echo "Checking dependencies..."
+	@echo -n "SystemC: "
+	@if [ -d "$(SYSTEMC_HOME)" ]; then echo "✓ Found at $(SYSTEMC_HOME)"; else echo "✗ Not found at $(SYSTEMC_HOME)"; fi
+	@echo -n "UVM SystemC: "
+	@if [ -d "$(UVM_SYSTEMC_HOME)" ]; then echo "✓ Found at $(UVM_SYSTEMC_HOME)"; else echo "✗ Not found at $(UVM_SYSTEMC_HOME)"; fi
+	@echo -n "CSR TLM Model: "
+	@if [ -f "../../generated/switch_csr_csr_tlm.h" ]; then echo "✓ Found"; else echo "✗ Not found - run RDL generator first"; fi
+	@echo -n "FC4SC: "
+	@if [ -f "fc4sc/includes/fc4sc.hpp" ]; then echo "✓ Found"; else echo "✗ Not found"; fi
+
+# 개발용 타겟들
+debug: CXXFLAGS += -DDEBUG -g -O0
+debug: $(TARGET_CSR_UVM)
+
+verbose: CXXFLAGS += -DUVM_VERBOSE
+verbose: $(TARGET_CSR_UVM)
+
+# 병렬 빌드 지원
+.PHONY: all run-uvm run-basic run-uvm-vcd coverage-report clean help check-deps debug verbose

@@ -1,0 +1,1016 @@
+
+        SystemC 3.0.2-Accellera --- Aug  6 2025 10:17:54
+        Copyright (c) 1996-2025 by all Contributors,
+        ALL RIGHTS RESERVED
+=== Simplified FC4SC-style SystemC Verification Environment ===
+Demonstrating FC4SC-like functional coverage methodology
+Note: This uses a simplified implementation, not the actual FC4SC library
+[SIMPLIFIED-FC4SC] Coverage model initialized
+[FC4SC-STYLE-TB] Reset sequence completed
+[FC4SC-STYLE-DRIVER] Started after reset
+[FC4SC-STYLE-MONITOR] Started after reset
+[FC4SC-STYLE-SEQ] Starting FC4SC-style coverage-driven test sequences
+[FC4SC-STYLE-SEQ] Generating destination port coverage (FC4SC style)
+[FC4SC-STYLE-DRIVER] Queued FC4SC-STYLE-TXN[1] dest=1 src=1 payload_size=32 channel=0 queue=0 beats=1
+[FC4SC-STYLE-DRIVER] Queued FC4SC-STYLE-TXN[2] dest=2 src=1 payload_size=32 channel=0 queue=0 beats=1
+[FC4SC-STYLE-DRIVER] Queued FC4SC-STYLE-TXN[3] dest=3 src=1 payload_size=32 channel=0 queue=0 beats=1
+[FC4SC-STYLE-DRIVER] Queued FC4SC-STYLE-TXN[4] dest=4 src=1 payload_size=32 channel=0 queue=0 beats=1
+[FC4SC-STYLE-DRIVER] Queued FC4SC-STYLE-TXN[5] dest=5 src=1 payload_size=32 channel=0 queue=0 beats=1
+[FC4SC-STYLE-DRIVER] Queued FC4SC-STYLE-TXN[6] dest=6 src=1 payload_size=32 channel=0 queue=0 beats=1
+[FC4SC-STYLE-DRIVER] Queued FC4SC-STYLE-TXN[7] dest=7 src=1 payload_size=32 channel=0 queue=0 beats=1
+[FC4SC-STYLE-DRIVER] Queued FC4SC-STYLE-TXN[8] dest=8 src=1 payload_size=32 channel=0 queue=0 beats=1
+[FC4SC-STYLE-SEQ] Generating packet size coverage (FC4SC style)
+[FC4SC-STYLE-DRIVER] Queued FC4SC-STYLE-TXN[9] dest=2 src=1 payload_size=32 channel=0 queue=0 beats=1
+[FC4SC-STYLE-DRIVER] Queued FC4SC-STYLE-TXN[10] dest=2 src=1 payload_size=64 channel=0 queue=0 beats=1
+[FC4SC-STYLE-DRIVER] Queued FC4SC-STYLE-TXN[11] dest=2 src=1 payload_size=128 channel=0 queue=0 beats=1
+[FC4SC-STYLE-DRIVER] Queued FC4SC-STYLE-TXN[12] dest=2 src=1 payload_size=256 channel=0 queue=0 beats=1
+[FC4SC-STYLE-DRIVER] Queued FC4SC-STYLE-TXN[13] dest=2 src=1 payload_size=512 channel=0 queue=0 beats=1
+[FC4SC-STYLE-DRIVER] Queued FC4SC-STYLE-TXN[14] dest=2 src=1 payload_size=1024 channel=0 queue=0 beats=1
+[FC4SC-STYLE-SEQ] Generating channel type coverage (FC4SC style)
+[FC4SC-STYLE-DRIVER] Queued FC4SC-STYLE-TXN[15] dest=3 src=1 payload_size=96 channel=0 queue=0 beats=1
+[FC4SC-STYLE-DRIVER] Queued FC4SC-STYLE-TXN[16] dest=3 src=1 payload_size=96 channel=1 queue=0 beats=1
+[FC4SC-STYLE-SEQ] Generating queue ID coverage (FC4SC style)
+[FC4SC-STYLE-DRIVER] Queued FC4SC-STYLE-TXN[17] dest=4 src=1 payload_size=64 channel=0 queue=0 beats=1
+[FC4SC-STYLE-DRIVER] Queued FC4SC-STYLE-TXN[18] dest=4 src=1 payload_size=64 channel=0 queue=1 beats=1
+[FC4SC-STYLE-DRIVER] Queued FC4SC-STYLE-TXN[19] dest=4 src=1 payload_size=64 channel=0 queue=2 beats=1
+[FC4SC-STYLE-DRIVER] Queued FC4SC-STYLE-TXN[20] dest=4 src=1 payload_size=64 channel=0 queue=3 beats=1
+[FC4SC-STYLE-SEQ] Generating cross coverage scenarios (FC4SC style)
+[FC4SC-STYLE-DRIVER] Queued FC4SC-STYLE-TXN[21] dest=5 src=1 payload_size=32 channel=0 queue=1 beats=1
+[FC4SC-STYLE-DRIVER] Queued FC4SC-STYLE-TXN[22] dest=5 src=1 payload_size=256 channel=0 queue=1 beats=1
+[FC4SC-STYLE-DRIVER] Queued FC4SC-STYLE-TXN[23] dest=6 src=1 payload_size=64 channel=0 queue=1 beats=1
+[FC4SC-STYLE-DRIVER] Queued FC4SC-STYLE-TXN[24] dest=6 src=1 payload_size=512 channel=0 queue=1 beats=1
+[FC4SC-STYLE-DRIVER] Queued FC4SC-STYLE-TXN[25] dest=7 src=1 payload_size=128 channel=0 queue=1 beats=1
+[FC4SC-STYLE-DRIVER] Queued FC4SC-STYLE-TXN[26] dest=7 src=1 payload_size=1024 channel=0 queue=1 beats=1
+[FC4SC-STYLE-DRIVER] Queued FC4SC-STYLE-TXN[27] dest=8 src=1 payload_size=256 channel=0 queue=1 beats=1
+[FC4SC-STYLE-DRIVER] Queued FC4SC-STYLE-TXN[28] dest=1 src=1 payload_size=80 channel=1 queue=2 beats=1
+[FC4SC-STYLE-DRIVER] Queued FC4SC-STYLE-TXN[29] dest=2 src=1 payload_size=80 channel=1 queue=2 beats=1
+[FC4SC-STYLE-DRIVER] Queued FC4SC-STYLE-TXN[30] dest=3 src=1 payload_size=80 channel=1 queue=2 beats=1
+[FC4SC-STYLE-DRIVER] Queued FC4SC-STYLE-TXN[31] dest=4 src=1 payload_size=80 channel=1 queue=2 beats=1
+[FC4SC-STYLE-SEQ] Generating random coverage scenarios (FC4SC style)
+[FC4SC-STYLE-DRIVER] Queued FC4SC-STYLE-TXN[32] dest=8 src=1 payload_size=81 channel=1 queue=2 beats=1
+[FC4SC-STYLE-DRIVER] Queued FC4SC-STYLE-TXN[33] dest=4 src=1 payload_size=137 channel=0 queue=3 beats=1
+[FC4SC-STYLE-DRIVER] Queued FC4SC-STYLE-TXN[34] dest=3 src=1 payload_size=263 channel=0 queue=1 beats=1
+[FC4SC-STYLE-DRIVER] Queued FC4SC-STYLE-TXN[35] dest=5 src=1 payload_size=312 channel=1 queue=0 beats=1
+[FC4SC-STYLE-DRIVER] Queued FC4SC-STYLE-TXN[36] dest=4 src=1 payload_size=221 channel=0 queue=3 beats=1
+[FC4SC-STYLE-DRIVER] Queued FC4SC-STYLE-TXN[37] dest=8 src=1 payload_size=312 channel=0 queue=0 beats=1
+[FC4SC-STYLE-DRIVER] Queued FC4SC-STYLE-TXN[38] dest=2 src=1 payload_size=323 channel=0 queue=0 beats=1
+[FC4SC-STYLE-DRIVER] Queued FC4SC-STYLE-TXN[39] dest=6 src=1 payload_size=39 channel=1 queue=2 beats=1
+[FC4SC-STYLE-DRIVER] Queued FC4SC-STYLE-TXN[40] dest=1 src=1 payload_size=126 channel=1 queue=3 beats=1
+[FC4SC-STYLE-DRIVER] Queued FC4SC-STYLE-TXN[41] dest=2 src=1 payload_size=103 channel=1 queue=2 beats=1
+[FC4SC-STYLE-DRIVER] Queued FC4SC-STYLE-TXN[42] dest=2 src=1 payload_size=257 channel=1 queue=2 beats=1
+[FC4SC-STYLE-DRIVER] Queued FC4SC-STYLE-TXN[43] dest=8 src=1 payload_size=75 channel=0 queue=3 beats=1
+[FC4SC-STYLE-SEQ] All FC4SC-style coverage sequences generated
+[FC4SC-STYLE-DRIVER] Driving FC4SC-STYLE-TXN[1] dest=1 src=1 payload_size=32 channel=0 queue=0 beats=1
+[Port 1] Parsed external header:
+   Channel Type: 0
+   Queue ID: 0
+   Dest Port: 1
+   Source Port: 1
+   Total Size: 41
+   Header CRC: 0x29
+[Port 1] ✅ CRC validation PASSED
+[Port 1] Stored packet with parsed header, total size: 41 bytes, payload size: 32 bytes, buffer count: 1
+[FC4SC-STYLE-DRIVER] FC4SC-STYLE-TXN[1] dest=1 src=1 payload_size=32 channel=0 queue=0 beats=1 sent successfully (41 bytes, 1 beats)
+[Port 1] Retrieved packet, size: 41 bytes, buffer count: 0
+[Port 1] Generated internal header from external:
+   Channel Type: 0
+   Queue ID: 0
+   Dest Port: 1
+   Source Port: 1
+   Packet Length: 41
+   Header CRC: 0x29
+[Port 1] Sent AXIS packet, size: 41 bytes in 1 beats
+[FC4SC-STYLE-MONITOR] Observed FC4SC-STYLE-TXN[44] dest=1 src=1 payload_size=32 channel=0 queue=0 beats=1
+[FC4SC-STYLE-DRIVER] Driving FC4SC-STYLE-TXN[2] dest=2 src=1 payload_size=32 channel=0 queue=0 beats=1
+[Port 1] Parsed external header:
+   Channel Type: 0
+   Queue ID: 0
+   Dest Port: 2
+   Source Port: 1
+   Total Size: 41
+   Header CRC: 0x2a
+[Port 1] ✅ CRC validation PASSED
+[Port 1] Stored packet with parsed header, total size: 41 bytes, payload size: 32 bytes, buffer count: 1
+[FC4SC-STYLE-DRIVER] FC4SC-STYLE-TXN[2] dest=2 src=1 payload_size=32 channel=0 queue=0 beats=1 sent successfully (41 bytes, 1 beats)
+[Port 1] Retrieved packet, size: 41 bytes, buffer count: 0
+[Port 1] Generated internal header from external:
+   Channel Type: 0
+   Queue ID: 0
+   Dest Port: 2
+   Source Port: 1
+   Packet Length: 41
+   Header CRC: 0x2a
+[Port 1] Sent AXIS packet, size: 41 bytes in 1 beats
+[FC4SC-STYLE-MONITOR] Observed FC4SC-STYLE-TXN[45] dest=2 src=1 payload_size=32 channel=0 queue=0 beats=1
+[FC4SC-STYLE-DRIVER] Driving FC4SC-STYLE-TXN[3] dest=3 src=1 payload_size=32 channel=0 queue=0 beats=1
+[Port 1] Parsed external header:
+   Channel Type: 0
+   Queue ID: 0
+   Dest Port: 3
+   Source Port: 1
+   Total Size: 41
+   Header CRC: 0x2b
+[Port 1] ✅ CRC validation PASSED
+[Port 1] Stored packet with parsed header, total size: 41 bytes, payload size: 32 bytes, buffer count: 1
+[FC4SC-STYLE-DRIVER] FC4SC-STYLE-TXN[3] dest=3 src=1 payload_size=32 channel=0 queue=0 beats=1 sent successfully (41 bytes, 1 beats)
+[Port 1] Retrieved packet, size: 41 bytes, buffer count: 0
+[Port 1] Generated internal header from external:
+   Channel Type: 0
+   Queue ID: 0
+   Dest Port: 3
+   Source Port: 1
+   Packet Length: 41
+   Header CRC: 0x2b
+[Port 1] Sent AXIS packet, size: 41 bytes in 1 beats
+[FC4SC-STYLE-MONITOR] Observed FC4SC-STYLE-TXN[46] dest=3 src=1 payload_size=32 channel=0 queue=0 beats=1
+[FC4SC-STYLE-DRIVER] Driving FC4SC-STYLE-TXN[4] dest=4 src=1 payload_size=32 channel=0 queue=0 beats=1
+[Port 1] Parsed external header:
+   Channel Type: 0
+   Queue ID: 0
+   Dest Port: 4
+   Source Port: 1
+   Total Size: 41
+   Header CRC: 0x2c
+[Port 1] ✅ CRC validation PASSED
+[Port 1] Stored packet with parsed header, total size: 41 bytes, payload size: 32 bytes, buffer count: 1
+[FC4SC-STYLE-DRIVER] FC4SC-STYLE-TXN[4] dest=4 src=1 payload_size=32 channel=0 queue=0 beats=1 sent successfully (41 bytes, 1 beats)
+[Port 1] Retrieved packet, size: 41 bytes, buffer count: 0
+[Port 1] Generated internal header from external:
+   Channel Type: 0
+   Queue ID: 0
+   Dest Port: 4
+   Source Port: 1
+   Packet Length: 41
+   Header CRC: 0x2c
+[Port 1] Sent AXIS packet, size: 41 bytes in 1 beats
+[FC4SC-STYLE-MONITOR] Observed FC4SC-STYLE-TXN[47] dest=4 src=1 payload_size=32 channel=0 queue=0 beats=1
+[FC4SC-STYLE-DRIVER] Driving FC4SC-STYLE-TXN[5] dest=5 src=1 payload_size=32 channel=0 queue=0 beats=1
+[Port 1] Parsed external header:
+   Channel Type: 0
+   Queue ID: 0
+   Dest Port: 5
+   Source Port: 1
+   Total Size: 41
+   Header CRC: 0x2d
+[Port 1] ✅ CRC validation PASSED
+[Port 1] Stored packet with parsed header, total size: 41 bytes, payload size: 32 bytes, buffer count: 1
+[FC4SC-STYLE-DRIVER] FC4SC-STYLE-TXN[5] dest=5 src=1 payload_size=32 channel=0 queue=0 beats=1 sent successfully (41 bytes, 1 beats)
+[Port 1] Retrieved packet, size: 41 bytes, buffer count: 0
+[Port 1] Generated internal header from external:
+   Channel Type: 0
+   Queue ID: 0
+   Dest Port: 5
+   Source Port: 1
+   Packet Length: 41
+   Header CRC: 0x2d
+[Port 1] Sent AXIS packet, size: 41 bytes in 1 beats
+[FC4SC-STYLE-MONITOR] Observed FC4SC-STYLE-TXN[48] dest=5 src=1 payload_size=32 channel=0 queue=0 beats=1
+[FC4SC-STYLE-DRIVER] Driving FC4SC-STYLE-TXN[6] dest=6 src=1 payload_size=32 channel=0 queue=0 beats=1
+[Port 1] Parsed external header:
+   Channel Type: 0
+   Queue ID: 0
+   Dest Port: 6
+   Source Port: 1
+   Total Size: 41
+   Header CRC: 0x2e
+[Port 1] ✅ CRC validation PASSED
+[Port 1] Stored packet with parsed header, total size: 41 bytes, payload size: 32 bytes, buffer count: 1
+[FC4SC-STYLE-DRIVER] FC4SC-STYLE-TXN[6] dest=6 src=1 payload_size=32 channel=0 queue=0 beats=1 sent successfully (41 bytes, 1 beats)
+[Port 1] Retrieved packet, size: 41 bytes, buffer count: 0
+[Port 1] Generated internal header from external:
+   Channel Type: 0
+   Queue ID: 0
+   Dest Port: 6
+   Source Port: 1
+   Packet Length: 41
+   Header CRC: 0x2e
+[Port 1] Sent AXIS packet, size: 41 bytes in 1 beats
+[FC4SC-STYLE-MONITOR] Observed FC4SC-STYLE-TXN[49] dest=6 src=1 payload_size=32 channel=0 queue=0 beats=1
+[FC4SC-STYLE-DRIVER] Driving FC4SC-STYLE-TXN[7] dest=7 src=1 payload_size=32 channel=0 queue=0 beats=1
+[Port 1] Parsed external header:
+   Channel Type: 0
+   Queue ID: 0
+   Dest Port: 7
+   Source Port: 1
+   Total Size: 41
+   Header CRC: 0x2f
+[Port 1] ✅ CRC validation PASSED
+[Port 1] Stored packet with parsed header, total size: 41 bytes, payload size: 32 bytes, buffer count: 1
+[FC4SC-STYLE-DRIVER] FC4SC-STYLE-TXN[7] dest=7 src=1 payload_size=32 channel=0 queue=0 beats=1 sent successfully (41 bytes, 1 beats)
+[Port 1] Retrieved packet, size: 41 bytes, buffer count: 0
+[Port 1] Generated internal header from external:
+   Channel Type: 0
+   Queue ID: 0
+   Dest Port: 7
+   Source Port: 1
+   Packet Length: 41
+   Header CRC: 0x2f
+[Port 1] Sent AXIS packet, size: 41 bytes in 1 beats
+[FC4SC-STYLE-MONITOR] Observed FC4SC-STYLE-TXN[50] dest=7 src=1 payload_size=32 channel=0 queue=0 beats=1
+[FC4SC-STYLE-DRIVER] Driving FC4SC-STYLE-TXN[8] dest=8 src=1 payload_size=32 channel=0 queue=0 beats=1
+[Port 1] Parsed external header:
+   Channel Type: 0
+   Queue ID: 0
+   Dest Port: 8
+   Source Port: 1
+   Total Size: 41
+   Header CRC: 0x20
+[Port 1] ✅ CRC validation PASSED
+[Port 1] Stored packet with parsed header, total size: 41 bytes, payload size: 32 bytes, buffer count: 1
+[FC4SC-STYLE-DRIVER] FC4SC-STYLE-TXN[8] dest=8 src=1 payload_size=32 channel=0 queue=0 beats=1 sent successfully (41 bytes, 1 beats)
+[Port 1] Retrieved packet, size: 41 bytes, buffer count: 0
+[Port 1] Generated internal header from external:
+   Channel Type: 0
+   Queue ID: 0
+   Dest Port: 8
+   Source Port: 1
+   Packet Length: 41
+   Header CRC: 0x20
+[Port 1] Sent AXIS packet, size: 41 bytes in 1 beats
+[FC4SC-STYLE-MONITOR] Observed FC4SC-STYLE-TXN[51] dest=8 src=1 payload_size=32 channel=0 queue=0 beats=1
+[FC4SC-STYLE-DRIVER] Driving FC4SC-STYLE-TXN[9] dest=2 src=1 payload_size=32 channel=0 queue=0 beats=1
+[Port 1] Parsed external header:
+   Channel Type: 0
+   Queue ID: 0
+   Dest Port: 2
+   Source Port: 1
+   Total Size: 41
+   Header CRC: 0x2a
+[Port 1] ✅ CRC validation PASSED
+[Port 1] Stored packet with parsed header, total size: 41 bytes, payload size: 32 bytes, buffer count: 1
+[FC4SC-STYLE-DRIVER] FC4SC-STYLE-TXN[9] dest=2 src=1 payload_size=32 channel=0 queue=0 beats=1 sent successfully (41 bytes, 1 beats)
+[Port 1] Retrieved packet, size: 41 bytes, buffer count: 0
+[Port 1] Generated internal header from external:
+   Channel Type: 0
+   Queue ID: 0
+   Dest Port: 2
+   Source Port: 1
+   Packet Length: 41
+   Header CRC: 0x2a
+[Port 1] Sent AXIS packet, size: 41 bytes in 1 beats
+[FC4SC-STYLE-MONITOR] Observed FC4SC-STYLE-TXN[52] dest=2 src=1 payload_size=32 channel=0 queue=0 beats=1
+[FC4SC-STYLE-DRIVER] Driving FC4SC-STYLE-TXN[10] dest=2 src=1 payload_size=64 channel=0 queue=0 beats=1
+[Port 1] Parsed external header:
+   Channel Type: 0
+   Queue ID: 0
+   Dest Port: 2
+   Source Port: 1
+   Total Size: 73
+   Header CRC: 0x4a
+[Port 1] ✅ CRC validation PASSED
+[Port 1] Stored packet with parsed header, total size: 73 bytes, payload size: 64 bytes, buffer count: 1
+[FC4SC-STYLE-DRIVER] FC4SC-STYLE-TXN[10] dest=2 src=1 payload_size=64 channel=0 queue=0 beats=2 sent successfully (73 bytes, 2 beats)
+[Port 1] Retrieved packet, size: 73 bytes, buffer count: 0
+[Port 1] Generated internal header from external:
+   Channel Type: 0
+   Queue ID: 0
+   Dest Port: 2
+   Source Port: 1
+   Packet Length: 73
+   Header CRC: 0x4a
+[Port 1] Sent AXIS packet, size: 73 bytes in 2 beats
+[FC4SC-STYLE-MONITOR] Observed FC4SC-STYLE-TXN[53] dest=2 src=1 payload_size=64 channel=0 queue=0 beats=2
+[FC4SC-STYLE-DRIVER] Driving FC4SC-STYLE-TXN[11] dest=2 src=1 payload_size=128 channel=0 queue=0 beats=1
+[Port 1] Parsed external header:
+   Channel Type: 0
+   Queue ID: 0
+   Dest Port: 2
+   Source Port: 1
+   Total Size: 137
+   Header CRC: 0x8a
+[Port 1] ✅ CRC validation PASSED
+[Port 1] Stored packet with parsed header, total size: 137 bytes, payload size: 128 bytes, buffer count: 1
+[FC4SC-STYLE-DRIVER] FC4SC-STYLE-TXN[11] dest=2 src=1 payload_size=128 channel=0 queue=0 beats=3 sent successfully (137 bytes, 3 beats)
+[Port 1] Retrieved packet, size: 137 bytes, buffer count: 0
+[Port 1] Generated internal header from external:
+   Channel Type: 0
+   Queue ID: 0
+   Dest Port: 2
+   Source Port: 1
+   Packet Length: 137
+   Header CRC: 0x8a
+[Port 1] Sent AXIS packet, size: 137 bytes in 3 beats
+[FC4SC-STYLE-MONITOR] Observed FC4SC-STYLE-TXN[54] dest=2 src=1 payload_size=128 channel=0 queue=0 beats=3
+[FC4SC-STYLE-DRIVER] Driving FC4SC-STYLE-TXN[12] dest=2 src=1 payload_size=256 channel=0 queue=0 beats=1
+[Port 1] Parsed external header:
+   Channel Type: 0
+   Queue ID: 0
+   Dest Port: 2
+   Source Port: 1
+   Total Size: 265
+   Header CRC: 0xb
+[Port 1] ✅ CRC validation PASSED
+[Port 1] Stored packet with parsed header, total size: 265 bytes, payload size: 256 bytes, buffer count: 1
+[FC4SC-STYLE-DRIVER] FC4SC-STYLE-TXN[12] dest=2 src=1 payload_size=256 channel=0 queue=0 beats=5 sent successfully (265 bytes, 5 beats)
+[Port 1] Retrieved packet, size: 265 bytes, buffer count: 0
+[Port 1] Generated internal header from external:
+   Channel Type: 0
+   Queue ID: 0
+   Dest Port: 2
+   Source Port: 1
+   Packet Length: 265
+   Header CRC: 0xb
+[Port 1] Sent AXIS packet, size: 265 bytes in 5 beats
+[FC4SC-STYLE-MONITOR] Observed FC4SC-STYLE-TXN[55] dest=2 src=1 payload_size=256 channel=0 queue=0 beats=5
+[FC4SC-STYLE-DRIVER] Driving FC4SC-STYLE-TXN[13] dest=2 src=1 payload_size=512 channel=0 queue=0 beats=1
+[Port 1] Parsed external header:
+   Channel Type: 0
+   Queue ID: 0
+   Dest Port: 2
+   Source Port: 1
+   Total Size: 521
+   Header CRC: 0x8
+[Port 1] ✅ CRC validation PASSED
+[Port 1] Stored packet with parsed header, total size: 521 bytes, payload size: 512 bytes, buffer count: 1
+[FC4SC-STYLE-DRIVER] FC4SC-STYLE-TXN[13] dest=2 src=1 payload_size=512 channel=0 queue=0 beats=9 sent successfully (521 bytes, 9 beats)
+[Port 1] Retrieved packet, size: 521 bytes, buffer count: 0
+[Port 1] Generated internal header from external:
+   Channel Type: 0
+   Queue ID: 0
+   Dest Port: 2
+   Source Port: 1
+   Packet Length: 521
+   Header CRC: 0x8
+[Port 1] Sent AXIS packet, size: 521 bytes in 9 beats
+[FC4SC-STYLE-MONITOR] Observed FC4SC-STYLE-TXN[56] dest=2 src=1 payload_size=512 channel=0 queue=0 beats=9
+[FC4SC-STYLE-DRIVER] Driving FC4SC-STYLE-TXN[14] dest=2 src=1 payload_size=1024 channel=0 queue=0 beats=1
+[Port 1] Parsed external header:
+   Channel Type: 0
+   Queue ID: 0
+   Dest Port: 2
+   Source Port: 1
+   Total Size: 1033
+   Header CRC: 0xe
+[Port 1] ✅ CRC validation PASSED
+[Port 1] Stored packet with parsed header, total size: 1033 bytes, payload size: 1024 bytes, buffer count: 1
+[FC4SC-STYLE-DRIVER] FC4SC-STYLE-TXN[14] dest=2 src=1 payload_size=1024 channel=0 queue=0 beats=17 sent successfully (1033 bytes, 17 beats)
+[Port 1] Retrieved packet, size: 1033 bytes, buffer count: 0
+[Port 1] Generated internal header from external:
+   Channel Type: 0
+   Queue ID: 0
+   Dest Port: 2
+   Source Port: 1
+   Packet Length: 1033
+   Header CRC: 0xe
+[FC4SC-STYLE-DRIVER] Driving FC4SC-STYLE-TXN[15] dest=3 src=1 payload_size=96 channel=0 queue=0 beats=1
+[Port 1] Parsed external header:
+   Channel Type: 0
+   Queue ID: 0
+   Dest Port: 3
+   Source Port: 1
+   Total Size: 105
+   Header CRC: 0x6b
+[Port 1] ✅ CRC validation PASSED
+[Port 1] Stored packet with parsed header, total size: 105 bytes, payload size: 96 bytes, buffer count: 1
+[FC4SC-STYLE-DRIVER] FC4SC-STYLE-TXN[15] dest=3 src=1 payload_size=96 channel=0 queue=0 beats=2 sent successfully (105 bytes, 2 beats)
+[Port 1] Sent AXIS packet, size: 1033 bytes in 17 beats
+[FC4SC-STYLE-MONITOR] Observed FC4SC-STYLE-TXN[57] dest=2 src=1 payload_size=1024 channel=0 queue=0 beats=17
+[Port 1] Retrieved packet, size: 105 bytes, buffer count: 0
+[Port 1] Generated internal header from external:
+   Channel Type: 0
+   Queue ID: 0
+   Dest Port: 3
+   Source Port: 1
+   Packet Length: 105
+   Header CRC: 0x6b
+[Port 1] Sent AXIS packet, size: 105 bytes in 2 beats
+[FC4SC-STYLE-MONITOR] Observed FC4SC-STYLE-TXN[58] dest=3 src=1 payload_size=96 channel=0 queue=0 beats=2
+[FC4SC-STYLE-DRIVER] Driving FC4SC-STYLE-TXN[16] dest=3 src=1 payload_size=96 channel=1 queue=0 beats=1
+[Port 1] Parsed external header:
+   Channel Type: 1
+   Queue ID: 0
+   Dest Port: 3
+   Source Port: 1
+   Total Size: 105
+   Header CRC: 0x6a
+[Port 1] ✅ CRC validation PASSED
+[Port 1] Stored packet with parsed header, total size: 105 bytes, payload size: 96 bytes, buffer count: 1
+[FC4SC-STYLE-DRIVER] FC4SC-STYLE-TXN[16] dest=3 src=1 payload_size=96 channel=1 queue=0 beats=2 sent successfully (105 bytes, 2 beats)
+[Port 1] Retrieved packet, size: 105 bytes, buffer count: 0
+[Port 1] Generated internal header from external:
+   Channel Type: 1
+   Queue ID: 0
+   Dest Port: 3
+   Source Port: 1
+   Packet Length: 105
+   Header CRC: 0x6a
+[Port 1] Sent AXIS packet, size: 105 bytes in 2 beats
+[FC4SC-STYLE-MONITOR] Observed FC4SC-STYLE-TXN[59] dest=3 src=1 payload_size=96 channel=1 queue=0 beats=2
+[FC4SC-STYLE-DRIVER] Driving FC4SC-STYLE-TXN[17] dest=4 src=1 payload_size=64 channel=0 queue=0 beats=1
+[Port 1] Parsed external header:
+   Channel Type: 0
+   Queue ID: 0
+   Dest Port: 4
+   Source Port: 1
+   Total Size: 73
+   Header CRC: 0x4c
+[Port 1] ✅ CRC validation PASSED
+[Port 1] Stored packet with parsed header, total size: 73 bytes, payload size: 64 bytes, buffer count: 1
+[FC4SC-STYLE-DRIVER] FC4SC-STYLE-TXN[17] dest=4 src=1 payload_size=64 channel=0 queue=0 beats=2 sent successfully (73 bytes, 2 beats)
+[Port 1] Retrieved packet, size: 73 bytes, buffer count: 0
+[Port 1] Generated internal header from external:
+   Channel Type: 0
+   Queue ID: 0
+   Dest Port: 4
+   Source Port: 1
+   Packet Length: 73
+   Header CRC: 0x4c
+[Port 1] Sent AXIS packet, size: 73 bytes in 2 beats
+[FC4SC-STYLE-MONITOR] Observed FC4SC-STYLE-TXN[60] dest=4 src=1 payload_size=64 channel=0 queue=0 beats=2
+[FC4SC-STYLE-DRIVER] Driving FC4SC-STYLE-TXN[18] dest=4 src=1 payload_size=64 channel=0 queue=1 beats=1
+[Port 1] Parsed external header:
+   Channel Type: 0
+   Queue ID: 1
+   Dest Port: 4
+   Source Port: 1
+   Total Size: 73
+   Header CRC: 0x4d
+[Port 1] ✅ CRC validation PASSED
+[Port 1] Stored packet with parsed header, total size: 73 bytes, payload size: 64 bytes, buffer count: 1
+[FC4SC-STYLE-DRIVER] FC4SC-STYLE-TXN[18] dest=4 src=1 payload_size=64 channel=0 queue=1 beats=2 sent successfully (73 bytes, 2 beats)
+[Port 1] Retrieved packet, size: 73 bytes, buffer count: 0
+[Port 1] Generated internal header from external:
+   Channel Type: 0
+   Queue ID: 1
+   Dest Port: 4
+   Source Port: 1
+   Packet Length: 73
+   Header CRC: 0x4d
+[Port 1] Sent AXIS packet, size: 73 bytes in 2 beats
+[FC4SC-STYLE-MONITOR] Observed FC4SC-STYLE-TXN[61] dest=4 src=1 payload_size=64 channel=0 queue=1 beats=2
+[FC4SC-STYLE-DRIVER] Driving FC4SC-STYLE-TXN[19] dest=4 src=1 payload_size=64 channel=0 queue=2 beats=1
+[Port 1] Parsed external header:
+   Channel Type: 0
+   Queue ID: 2
+   Dest Port: 4
+   Source Port: 1
+   Total Size: 73
+   Header CRC: 0x4e
+[Port 1] ✅ CRC validation PASSED
+[Port 1] Stored packet with parsed header, total size: 73 bytes, payload size: 64 bytes, buffer count: 1
+[FC4SC-STYLE-DRIVER] FC4SC-STYLE-TXN[19] dest=4 src=1 payload_size=64 channel=0 queue=2 beats=2 sent successfully (73 bytes, 2 beats)
+[Port 1] Retrieved packet, size: 73 bytes, buffer count: 0
+[Port 1] Generated internal header from external:
+   Channel Type: 0
+   Queue ID: 2
+   Dest Port: 4
+   Source Port: 1
+   Packet Length: 73
+   Header CRC: 0x4e
+[Port 1] Sent AXIS packet, size: 73 bytes in 2 beats
+[FC4SC-STYLE-MONITOR] Observed FC4SC-STYLE-TXN[62] dest=4 src=1 payload_size=64 channel=0 queue=2 beats=2
+[FC4SC-STYLE-DRIVER] Driving FC4SC-STYLE-TXN[20] dest=4 src=1 payload_size=64 channel=0 queue=3 beats=1
+[Port 1] Parsed external header:
+   Channel Type: 0
+   Queue ID: 3
+   Dest Port: 4
+   Source Port: 1
+   Total Size: 73
+   Header CRC: 0x4f
+[Port 1] ✅ CRC validation PASSED
+[Port 1] Stored packet with parsed header, total size: 73 bytes, payload size: 64 bytes, buffer count: 1
+[FC4SC-STYLE-DRIVER] FC4SC-STYLE-TXN[20] dest=4 src=1 payload_size=64 channel=0 queue=3 beats=2 sent successfully (73 bytes, 2 beats)
+[Port 1] Retrieved packet, size: 73 bytes, buffer count: 0
+[Port 1] Generated internal header from external:
+   Channel Type: 0
+   Queue ID: 3
+   Dest Port: 4
+   Source Port: 1
+   Packet Length: 73
+   Header CRC: 0x4f
+[Port 1] Sent AXIS packet, size: 73 bytes in 2 beats
+[FC4SC-STYLE-MONITOR] Observed FC4SC-STYLE-TXN[63] dest=4 src=1 payload_size=64 channel=0 queue=3 beats=2
+[FC4SC-STYLE-DRIVER] Driving FC4SC-STYLE-TXN[21] dest=5 src=1 payload_size=32 channel=0 queue=1 beats=1
+[Port 1] Parsed external header:
+   Channel Type: 0
+   Queue ID: 1
+   Dest Port: 5
+   Source Port: 1
+   Total Size: 41
+   Header CRC: 0x2c
+[Port 1] ✅ CRC validation PASSED
+[Port 1] Stored packet with parsed header, total size: 41 bytes, payload size: 32 bytes, buffer count: 1
+[FC4SC-STYLE-DRIVER] FC4SC-STYLE-TXN[21] dest=5 src=1 payload_size=32 channel=0 queue=1 beats=1 sent successfully (41 bytes, 1 beats)
+[Port 1] Retrieved packet, size: 41 bytes, buffer count: 0
+[Port 1] Generated internal header from external:
+   Channel Type: 0
+   Queue ID: 1
+   Dest Port: 5
+   Source Port: 1
+   Packet Length: 41
+   Header CRC: 0x2c
+[Port 1] Sent AXIS packet, size: 41 bytes in 1 beats
+[FC4SC-STYLE-MONITOR] Observed FC4SC-STYLE-TXN[64] dest=5 src=1 payload_size=32 channel=0 queue=1 beats=1
+[FC4SC-STYLE-DRIVER] Driving FC4SC-STYLE-TXN[22] dest=5 src=1 payload_size=256 channel=0 queue=1 beats=1
+[Port 1] Parsed external header:
+   Channel Type: 0
+   Queue ID: 1
+   Dest Port: 5
+   Source Port: 1
+   Total Size: 265
+   Header CRC: 0xd
+[Port 1] ✅ CRC validation PASSED
+[Port 1] Stored packet with parsed header, total size: 265 bytes, payload size: 256 bytes, buffer count: 1
+[FC4SC-STYLE-DRIVER] FC4SC-STYLE-TXN[22] dest=5 src=1 payload_size=256 channel=0 queue=1 beats=5 sent successfully (265 bytes, 5 beats)
+[Port 1] Retrieved packet, size: 265 bytes, buffer count: 0
+[Port 1] Generated internal header from external:
+   Channel Type: 0
+   Queue ID: 1
+   Dest Port: 5
+   Source Port: 1
+   Packet Length: 265
+   Header CRC: 0xd
+[Port 1] Sent AXIS packet, size: 265 bytes in 5 beats
+[FC4SC-STYLE-MONITOR] Observed FC4SC-STYLE-TXN[65] dest=5 src=1 payload_size=256 channel=0 queue=1 beats=5
+[FC4SC-STYLE-DRIVER] Driving FC4SC-STYLE-TXN[23] dest=6 src=1 payload_size=64 channel=0 queue=1 beats=1
+[Port 1] Parsed external header:
+   Channel Type: 0
+   Queue ID: 1
+   Dest Port: 6
+   Source Port: 1
+   Total Size: 73
+   Header CRC: 0x4f
+[Port 1] ✅ CRC validation PASSED
+[Port 1] Stored packet with parsed header, total size: 73 bytes, payload size: 64 bytes, buffer count: 1
+[FC4SC-STYLE-DRIVER] FC4SC-STYLE-TXN[23] dest=6 src=1 payload_size=64 channel=0 queue=1 beats=2 sent successfully (73 bytes, 2 beats)
+[Port 1] Retrieved packet, size: 73 bytes, buffer count: 0
+[Port 1] Generated internal header from external:
+   Channel Type: 0
+   Queue ID: 1
+   Dest Port: 6
+   Source Port: 1
+   Packet Length: 73
+   Header CRC: 0x4f
+[Port 1] Sent AXIS packet, size: 73 bytes in 2 beats
+[FC4SC-STYLE-MONITOR] Observed FC4SC-STYLE-TXN[66] dest=6 src=1 payload_size=64 channel=0 queue=1 beats=2
+[FC4SC-STYLE-DRIVER] Driving FC4SC-STYLE-TXN[24] dest=6 src=1 payload_size=512 channel=0 queue=1 beats=1
+[Port 1] Parsed external header:
+   Channel Type: 0
+   Queue ID: 1
+   Dest Port: 6
+   Source Port: 1
+   Total Size: 521
+   Header CRC: 0xd
+[Port 1] ✅ CRC validation PASSED
+[Port 1] Stored packet with parsed header, total size: 521 bytes, payload size: 512 bytes, buffer count: 1
+[FC4SC-STYLE-DRIVER] FC4SC-STYLE-TXN[24] dest=6 src=1 payload_size=512 channel=0 queue=1 beats=9 sent successfully (521 bytes, 9 beats)
+[Port 1] Retrieved packet, size: 521 bytes, buffer count: 0
+[Port 1] Generated internal header from external:
+   Channel Type: 0
+   Queue ID: 1
+   Dest Port: 6
+   Source Port: 1
+   Packet Length: 521
+   Header CRC: 0xd
+[Port 1] Sent AXIS packet, size: 521 bytes in 9 beats
+[FC4SC-STYLE-MONITOR] Observed FC4SC-STYLE-TXN[67] dest=6 src=1 payload_size=512 channel=0 queue=1 beats=9
+[FC4SC-STYLE-DRIVER] Driving FC4SC-STYLE-TXN[25] dest=7 src=1 payload_size=128 channel=0 queue=1 beats=1
+[Port 1] Parsed external header:
+   Channel Type: 0
+   Queue ID: 1
+   Dest Port: 7
+   Source Port: 1
+   Total Size: 137
+   Header CRC: 0x8e
+[Port 1] ✅ CRC validation PASSED
+[Port 1] Stored packet with parsed header, total size: 137 bytes, payload size: 128 bytes, buffer count: 1
+[FC4SC-STYLE-DRIVER] FC4SC-STYLE-TXN[25] dest=7 src=1 payload_size=128 channel=0 queue=1 beats=3 sent successfully (137 bytes, 3 beats)
+[Port 1] Retrieved packet, size: 137 bytes, buffer count: 0
+[Port 1] Generated internal header from external:
+   Channel Type: 0
+   Queue ID: 1
+   Dest Port: 7
+   Source Port: 1
+   Packet Length: 137
+   Header CRC: 0x8e
+[Port 1] Sent AXIS packet, size: 137 bytes in 3 beats
+[FC4SC-STYLE-MONITOR] Observed FC4SC-STYLE-TXN[68] dest=7 src=1 payload_size=128 channel=0 queue=1 beats=3
+[FC4SC-STYLE-DRIVER] Driving FC4SC-STYLE-TXN[26] dest=7 src=1 payload_size=1024 channel=0 queue=1 beats=1
+[Port 1] Parsed external header:
+   Channel Type: 0
+   Queue ID: 1
+   Dest Port: 7
+   Source Port: 1
+   Total Size: 1033
+   Header CRC: 0xa
+[Port 1] ✅ CRC validation PASSED
+[Port 1] Stored packet with parsed header, total size: 1033 bytes, payload size: 1024 bytes, buffer count: 1
+[FC4SC-STYLE-DRIVER] FC4SC-STYLE-TXN[26] dest=7 src=1 payload_size=1024 channel=0 queue=1 beats=17 sent successfully (1033 bytes, 17 beats)
+[Port 1] Retrieved packet, size: 1033 bytes, buffer count: 0
+[Port 1] Generated internal header from external:
+   Channel Type: 0
+   Queue ID: 1
+   Dest Port: 7
+   Source Port: 1
+   Packet Length: 1033
+   Header CRC: 0xa
+[FC4SC-STYLE-DRIVER] Driving FC4SC-STYLE-TXN[27] dest=8 src=1 payload_size=256 channel=0 queue=1 beats=1
+[Port 1] Parsed external header:
+   Channel Type: 0
+   Queue ID: 1
+   Dest Port: 8
+   Source Port: 1
+   Total Size: 265
+   Header CRC: 0x0
+[Port 1] ✅ CRC validation PASSED
+[Port 1] Stored packet with parsed header, total size: 265 bytes, payload size: 256 bytes, buffer count: 1
+[FC4SC-STYLE-DRIVER] FC4SC-STYLE-TXN[27] dest=8 src=1 payload_size=256 channel=0 queue=1 beats=5 sent successfully (265 bytes, 5 beats)
+[Port 1] Sent AXIS packet, size: 1033 bytes in 17 beats
+[FC4SC-STYLE-MONITOR] Observed FC4SC-STYLE-TXN[69] dest=7 src=1 payload_size=1024 channel=0 queue=1 beats=17
+[Port 1] Retrieved packet, size: 265 bytes, buffer count: 0
+[Port 1] Generated internal header from external:
+   Channel Type: 0
+   Queue ID: 1
+   Dest Port: 8
+   Source Port: 1
+   Packet Length: 265
+   Header CRC: 0x0
+[Port 1] Sent AXIS packet, size: 265 bytes in 5 beats
+[FC4SC-STYLE-MONITOR] Observed FC4SC-STYLE-TXN[70] dest=8 src=1 payload_size=256 channel=0 queue=1 beats=5
+[FC4SC-STYLE-DRIVER] Driving FC4SC-STYLE-TXN[28] dest=1 src=1 payload_size=80 channel=1 queue=2 beats=1
+[Port 1] Parsed external header:
+   Channel Type: 1
+   Queue ID: 2
+   Dest Port: 1
+   Source Port: 1
+   Total Size: 89
+   Header CRC: 0x5a
+[Port 1] ✅ CRC validation PASSED
+[Port 1] Stored packet with parsed header, total size: 89 bytes, payload size: 80 bytes, buffer count: 1
+[FC4SC-STYLE-DRIVER] FC4SC-STYLE-TXN[28] dest=1 src=1 payload_size=80 channel=1 queue=2 beats=2 sent successfully (89 bytes, 2 beats)
+[Port 1] Retrieved packet, size: 89 bytes, buffer count: 0
+[Port 1] Generated internal header from external:
+   Channel Type: 1
+   Queue ID: 2
+   Dest Port: 1
+   Source Port: 1
+   Packet Length: 89
+   Header CRC: 0x5a
+[Port 1] Sent AXIS packet, size: 89 bytes in 2 beats
+[FC4SC-STYLE-MONITOR] Observed FC4SC-STYLE-TXN[71] dest=1 src=1 payload_size=80 channel=1 queue=2 beats=2
+[FC4SC-STYLE-DRIVER] Driving FC4SC-STYLE-TXN[29] dest=2 src=1 payload_size=80 channel=1 queue=2 beats=1
+[Port 1] Parsed external header:
+   Channel Type: 1
+   Queue ID: 2
+   Dest Port: 2
+   Source Port: 1
+   Total Size: 89
+   Header CRC: 0x59
+[Port 1] ✅ CRC validation PASSED
+[Port 1] Stored packet with parsed header, total size: 89 bytes, payload size: 80 bytes, buffer count: 1
+[FC4SC-STYLE-DRIVER] FC4SC-STYLE-TXN[29] dest=2 src=1 payload_size=80 channel=1 queue=2 beats=2 sent successfully (89 bytes, 2 beats)
+[Port 1] Retrieved packet, size: 89 bytes, buffer count: 0
+[Port 1] Generated internal header from external:
+   Channel Type: 1
+   Queue ID: 2
+   Dest Port: 2
+   Source Port: 1
+   Packet Length: 89
+   Header CRC: 0x59
+[Port 1] Sent AXIS packet, size: 89 bytes in 2 beats
+[FC4SC-STYLE-MONITOR] Observed FC4SC-STYLE-TXN[72] dest=2 src=1 payload_size=80 channel=1 queue=2 beats=2
+[FC4SC-STYLE-DRIVER] Driving FC4SC-STYLE-TXN[30] dest=3 src=1 payload_size=80 channel=1 queue=2 beats=1
+[Port 1] Parsed external header:
+   Channel Type: 1
+   Queue ID: 2
+   Dest Port: 3
+   Source Port: 1
+   Total Size: 89
+   Header CRC: 0x58
+[Port 1] ✅ CRC validation PASSED
+[Port 1] Stored packet with parsed header, total size: 89 bytes, payload size: 80 bytes, buffer count: 1
+[FC4SC-STYLE-DRIVER] FC4SC-STYLE-TXN[30] dest=3 src=1 payload_size=80 channel=1 queue=2 beats=2 sent successfully (89 bytes, 2 beats)
+[Port 1] Retrieved packet, size: 89 bytes, buffer count: 0
+[Port 1] Generated internal header from external:
+   Channel Type: 1
+   Queue ID: 2
+   Dest Port: 3
+   Source Port: 1
+   Packet Length: 89
+   Header CRC: 0x58
+[Port 1] Sent AXIS packet, size: 89 bytes in 2 beats
+[FC4SC-STYLE-MONITOR] Observed FC4SC-STYLE-TXN[73] dest=3 src=1 payload_size=80 channel=1 queue=2 beats=2
+[FC4SC-STYLE-DRIVER] Driving FC4SC-STYLE-TXN[31] dest=4 src=1 payload_size=80 channel=1 queue=2 beats=1
+[Port 1] Parsed external header:
+   Channel Type: 1
+   Queue ID: 2
+   Dest Port: 4
+   Source Port: 1
+   Total Size: 89
+   Header CRC: 0x5f
+[Port 1] ✅ CRC validation PASSED
+[Port 1] Stored packet with parsed header, total size: 89 bytes, payload size: 80 bytes, buffer count: 1
+[FC4SC-STYLE-DRIVER] FC4SC-STYLE-TXN[31] dest=4 src=1 payload_size=80 channel=1 queue=2 beats=2 sent successfully (89 bytes, 2 beats)
+[Port 1] Retrieved packet, size: 89 bytes, buffer count: 0
+[Port 1] Generated internal header from external:
+   Channel Type: 1
+   Queue ID: 2
+   Dest Port: 4
+   Source Port: 1
+   Packet Length: 89
+   Header CRC: 0x5f
+[Port 1] Sent AXIS packet, size: 89 bytes in 2 beats
+[FC4SC-STYLE-MONITOR] Observed FC4SC-STYLE-TXN[74] dest=4 src=1 payload_size=80 channel=1 queue=2 beats=2
+[FC4SC-STYLE-DRIVER] Driving FC4SC-STYLE-TXN[32] dest=8 src=1 payload_size=81 channel=1 queue=2 beats=1
+[Port 1] Parsed external header:
+   Channel Type: 1
+   Queue ID: 2
+   Dest Port: 8
+   Source Port: 1
+   Total Size: 90
+   Header CRC: 0x50
+[Port 1] ✅ CRC validation PASSED
+[Port 1] Stored packet with parsed header, total size: 90 bytes, payload size: 81 bytes, buffer count: 1
+[FC4SC-STYLE-DRIVER] FC4SC-STYLE-TXN[32] dest=8 src=1 payload_size=81 channel=1 queue=2 beats=2 sent successfully (90 bytes, 2 beats)
+[Port 1] Retrieved packet, size: 90 bytes, buffer count: 0
+[Port 1] Generated internal header from external:
+   Channel Type: 1
+   Queue ID: 2
+   Dest Port: 8
+   Source Port: 1
+   Packet Length: 90
+   Header CRC: 0x50
+[Port 1] Sent AXIS packet, size: 90 bytes in 2 beats
+[FC4SC-STYLE-MONITOR] Observed FC4SC-STYLE-TXN[75] dest=8 src=1 payload_size=81 channel=1 queue=2 beats=2
+[FC4SC-STYLE-DRIVER] Driving FC4SC-STYLE-TXN[33] dest=4 src=1 payload_size=137 channel=0 queue=3 beats=1
+[Port 1] Parsed external header:
+   Channel Type: 0
+   Queue ID: 3
+   Dest Port: 4
+   Source Port: 1
+   Total Size: 146
+   Header CRC: 0x94
+[Port 1] ✅ CRC validation PASSED
+[Port 1] Stored packet with parsed header, total size: 146 bytes, payload size: 137 bytes, buffer count: 1
+[FC4SC-STYLE-DRIVER] FC4SC-STYLE-TXN[33] dest=4 src=1 payload_size=137 channel=0 queue=3 beats=3 sent successfully (146 bytes, 3 beats)
+[Port 1] Retrieved packet, size: 146 bytes, buffer count: 0
+[Port 1] Generated internal header from external:
+   Channel Type: 0
+   Queue ID: 3
+   Dest Port: 4
+   Source Port: 1
+   Packet Length: 146
+   Header CRC: 0x94
+[Port 1] Sent AXIS packet, size: 146 bytes in 3 beats
+[FC4SC-STYLE-MONITOR] Observed FC4SC-STYLE-TXN[76] dest=4 src=1 payload_size=137 channel=0 queue=3 beats=3
+[FC4SC-STYLE-DRIVER] Driving FC4SC-STYLE-TXN[34] dest=3 src=1 payload_size=263 channel=0 queue=1 beats=1
+[Port 1] Parsed external header:
+   Channel Type: 0
+   Queue ID: 1
+   Dest Port: 3
+   Source Port: 1
+   Total Size: 272
+   Header CRC: 0x12
+[Port 1] ✅ CRC validation PASSED
+[Port 1] Stored packet with parsed header, total size: 272 bytes, payload size: 263 bytes, buffer count: 1
+[FC4SC-STYLE-DRIVER] FC4SC-STYLE-TXN[34] dest=3 src=1 payload_size=263 channel=0 queue=1 beats=5 sent successfully (272 bytes, 5 beats)
+[Port 1] Retrieved packet, size: 272 bytes, buffer count: 0
+[Port 1] Generated internal header from external:
+   Channel Type: 0
+   Queue ID: 1
+   Dest Port: 3
+   Source Port: 1
+   Packet Length: 272
+   Header CRC: 0x12
+[Port 1] Sent AXIS packet, size: 272 bytes in 5 beats
+[FC4SC-STYLE-MONITOR] Observed FC4SC-STYLE-TXN[77] dest=3 src=1 payload_size=263 channel=0 queue=1 beats=5
+[FC4SC-STYLE-DRIVER] Driving FC4SC-STYLE-TXN[35] dest=5 src=1 payload_size=312 channel=1 queue=0 beats=1
+[Port 1] Parsed external header:
+   Channel Type: 1
+   Queue ID: 0
+   Dest Port: 5
+   Source Port: 1
+   Total Size: 321
+   Header CRC: 0x45
+[Port 1] ✅ CRC validation PASSED
+[Port 1] Stored packet with parsed header, total size: 321 bytes, payload size: 312 bytes, buffer count: 1
+[FC4SC-STYLE-DRIVER] FC4SC-STYLE-TXN[35] dest=5 src=1 payload_size=312 channel=1 queue=0 beats=6 sent successfully (321 bytes, 6 beats)
+[Port 1] Retrieved packet, size: 321 bytes, buffer count: 0
+[Port 1] Generated internal header from external:
+   Channel Type: 1
+   Queue ID: 0
+   Dest Port: 5
+   Source Port: 1
+   Packet Length: 321
+   Header CRC: 0x45
+[Port 1] Sent AXIS packet, size: 321 bytes in 6 beats
+[FC4SC-STYLE-MONITOR] Observed FC4SC-STYLE-TXN[78] dest=5 src=1 payload_size=312 channel=1 queue=0 beats=6
+[FC4SC-STYLE-DRIVER] Driving FC4SC-STYLE-TXN[36] dest=4 src=1 payload_size=221 channel=0 queue=3 beats=1
+[Port 1] Parsed external header:
+   Channel Type: 0
+   Queue ID: 3
+   Dest Port: 4
+   Source Port: 1
+   Total Size: 230
+   Header CRC: 0xe0
+[Port 1] ✅ CRC validation PASSED
+[Port 1] Stored packet with parsed header, total size: 230 bytes, payload size: 221 bytes, buffer count: 1
+[FC4SC-STYLE-DRIVER] FC4SC-STYLE-TXN[36] dest=4 src=1 payload_size=221 channel=0 queue=3 beats=4 sent successfully (230 bytes, 4 beats)
+[Port 1] Retrieved packet, size: 230 bytes, buffer count: 0
+[Port 1] Generated internal header from external:
+   Channel Type: 0
+   Queue ID: 3
+   Dest Port: 4
+   Source Port: 1
+   Packet Length: 230
+   Header CRC: 0xe0
+[Port 1] Sent AXIS packet, size: 230 bytes in 4 beats
+[FC4SC-STYLE-MONITOR] Observed FC4SC-STYLE-TXN[79] dest=4 src=1 payload_size=221 channel=0 queue=3 beats=4
+[FC4SC-STYLE-DRIVER] Driving FC4SC-STYLE-TXN[37] dest=8 src=1 payload_size=312 channel=0 queue=0 beats=1
+[Port 1] Parsed external header:
+   Channel Type: 0
+   Queue ID: 0
+   Dest Port: 8
+   Source Port: 1
+   Total Size: 321
+   Header CRC: 0x49
+[Port 1] ✅ CRC validation PASSED
+[Port 1] Stored packet with parsed header, total size: 321 bytes, payload size: 312 bytes, buffer count: 1
+[FC4SC-STYLE-DRIVER] FC4SC-STYLE-TXN[37] dest=8 src=1 payload_size=312 channel=0 queue=0 beats=6 sent successfully (321 bytes, 6 beats)
+[Port 1] Retrieved packet, size: 321 bytes, buffer count: 0
+[Port 1] Generated internal header from external:
+   Channel Type: 0
+   Queue ID: 0
+   Dest Port: 8
+   Source Port: 1
+   Packet Length: 321
+   Header CRC: 0x49
+[Port 1] Sent AXIS packet, size: 321 bytes in 6 beats
+[FC4SC-STYLE-MONITOR] Observed FC4SC-STYLE-TXN[80] dest=8 src=1 payload_size=312 channel=0 queue=0 beats=6
+[FC4SC-STYLE-DRIVER] Driving FC4SC-STYLE-TXN[38] dest=2 src=1 payload_size=323 channel=0 queue=0 beats=1
+[Port 1] Parsed external header:
+   Channel Type: 0
+   Queue ID: 0
+   Dest Port: 2
+   Source Port: 1
+   Total Size: 332
+   Header CRC: 0x4e
+[Port 1] ✅ CRC validation PASSED
+[Port 1] Stored packet with parsed header, total size: 332 bytes, payload size: 323 bytes, buffer count: 1
+[FC4SC-STYLE-DRIVER] FC4SC-STYLE-TXN[38] dest=2 src=1 payload_size=323 channel=0 queue=0 beats=6 sent successfully (332 bytes, 6 beats)
+[Port 1] Retrieved packet, size: 332 bytes, buffer count: 0
+[Port 1] Generated internal header from external:
+   Channel Type: 0
+   Queue ID: 0
+   Dest Port: 2
+   Source Port: 1
+   Packet Length: 332
+   Header CRC: 0x4e
+[Port 1] Sent AXIS packet, size: 332 bytes in 6 beats
+[FC4SC-STYLE-MONITOR] Observed FC4SC-STYLE-TXN[81] dest=2 src=1 payload_size=323 channel=0 queue=0 beats=6
+[FC4SC-STYLE-DRIVER] Driving FC4SC-STYLE-TXN[39] dest=6 src=1 payload_size=39 channel=1 queue=2 beats=1
+[Port 1] Parsed external header:
+   Channel Type: 1
+   Queue ID: 2
+   Dest Port: 6
+   Source Port: 1
+   Total Size: 48
+   Header CRC: 0x34
+[Port 1] ✅ CRC validation PASSED
+[Port 1] Stored packet with parsed header, total size: 48 bytes, payload size: 39 bytes, buffer count: 1
+[FC4SC-STYLE-DRIVER] FC4SC-STYLE-TXN[39] dest=6 src=1 payload_size=39 channel=1 queue=2 beats=1 sent successfully (48 bytes, 1 beats)
+[Port 1] Retrieved packet, size: 48 bytes, buffer count: 0
+[Port 1] Generated internal header from external:
+   Channel Type: 1
+   Queue ID: 2
+   Dest Port: 6
+   Source Port: 1
+   Packet Length: 48
+   Header CRC: 0x34
+[Port 1] Sent AXIS packet, size: 48 bytes in 1 beats
+[FC4SC-STYLE-MONITOR] Observed FC4SC-STYLE-TXN[82] dest=6 src=1 payload_size=39 channel=1 queue=2 beats=1
+[FC4SC-STYLE-DRIVER] Driving FC4SC-STYLE-TXN[40] dest=1 src=1 payload_size=126 channel=1 queue=3 beats=1
+[Port 1] Parsed external header:
+   Channel Type: 1
+   Queue ID: 3
+   Dest Port: 1
+   Source Port: 1
+   Total Size: 135
+   Header CRC: 0x85
+[Port 1] ✅ CRC validation PASSED
+[Port 1] Stored packet with parsed header, total size: 135 bytes, payload size: 126 bytes, buffer count: 1
+[FC4SC-STYLE-DRIVER] FC4SC-STYLE-TXN[40] dest=1 src=1 payload_size=126 channel=1 queue=3 beats=3 sent successfully (135 bytes, 3 beats)
+[Port 1] Retrieved packet, size: 135 bytes, buffer count: 0
+[Port 1] Generated internal header from external:
+   Channel Type: 1
+   Queue ID: 3
+   Dest Port: 1
+   Source Port: 1
+   Packet Length: 135
+   Header CRC: 0x85
+[Port 1] Sent AXIS packet, size: 135 bytes in 3 beats
+[FC4SC-STYLE-MONITOR] Observed FC4SC-STYLE-TXN[83] dest=1 src=1 payload_size=126 channel=1 queue=3 beats=3
+[FC4SC-STYLE-DRIVER] Driving FC4SC-STYLE-TXN[41] dest=2 src=1 payload_size=103 channel=1 queue=2 beats=1
+[Port 1] Parsed external header:
+   Channel Type: 1
+   Queue ID: 2
+   Dest Port: 2
+   Source Port: 1
+   Total Size: 112
+   Header CRC: 0x70
+[Port 1] ✅ CRC validation PASSED
+[Port 1] Stored packet with parsed header, total size: 112 bytes, payload size: 103 bytes, buffer count: 1
+[FC4SC-STYLE-DRIVER] FC4SC-STYLE-TXN[41] dest=2 src=1 payload_size=103 channel=1 queue=2 beats=2 sent successfully (112 bytes, 2 beats)
+[Port 1] Retrieved packet, size: 112 bytes, buffer count: 0
+[Port 1] Generated internal header from external:
+   Channel Type: 1
+   Queue ID: 2
+   Dest Port: 2
+   Source Port: 1
+   Packet Length: 112
+   Header CRC: 0x70
+[Port 1] Sent AXIS packet, size: 112 bytes in 2 beats
+[FC4SC-STYLE-MONITOR] Observed FC4SC-STYLE-TXN[84] dest=2 src=1 payload_size=103 channel=1 queue=2 beats=2
+[FC4SC-STYLE-DRIVER] Driving FC4SC-STYLE-TXN[42] dest=2 src=1 payload_size=257 channel=1 queue=2 beats=1
+[Port 1] Parsed external header:
+   Channel Type: 1
+   Queue ID: 2
+   Dest Port: 2
+   Source Port: 1
+   Total Size: 266
+   Header CRC: 0xb
+[Port 1] ✅ CRC validation PASSED
+[Port 1] Stored packet with parsed header, total size: 266 bytes, payload size: 257 bytes, buffer count: 1
+[FC4SC-STYLE-DRIVER] FC4SC-STYLE-TXN[42] dest=2 src=1 payload_size=257 channel=1 queue=2 beats=5 sent successfully (266 bytes, 5 beats)
+[Port 1] Retrieved packet, size: 266 bytes, buffer count: 0
+[Port 1] Generated internal header from external:
+   Channel Type: 1
+   Queue ID: 2
+   Dest Port: 2
+   Source Port: 1
+   Packet Length: 266
+   Header CRC: 0xb
+[Port 1] Sent AXIS packet, size: 266 bytes in 5 beats
+[FC4SC-STYLE-MONITOR] Observed FC4SC-STYLE-TXN[85] dest=2 src=1 payload_size=257 channel=1 queue=2 beats=5
+[FC4SC-STYLE-DRIVER] Driving FC4SC-STYLE-TXN[43] dest=8 src=1 payload_size=75 channel=0 queue=3 beats=1
+[Port 1] Parsed external header:
+   Channel Type: 0
+   Queue ID: 3
+   Dest Port: 8
+   Source Port: 1
+   Total Size: 84
+   Header CRC: 0x5e
+[Port 1] ✅ CRC validation PASSED
+[Port 1] Stored packet with parsed header, total size: 84 bytes, payload size: 75 bytes, buffer count: 1
+[FC4SC-STYLE-DRIVER] FC4SC-STYLE-TXN[43] dest=8 src=1 payload_size=75 channel=0 queue=3 beats=2 sent successfully (84 bytes, 2 beats)
+[Port 1] Retrieved packet, size: 84 bytes, buffer count: 0
+[Port 1] Generated internal header from external:
+   Channel Type: 0
+   Queue ID: 3
+   Dest Port: 8
+   Source Port: 1
+   Packet Length: 84
+   Header CRC: 0x5e
+[Port 1] Sent AXIS packet, size: 84 bytes in 2 beats
+[FC4SC-STYLE-MONITOR] Observed FC4SC-STYLE-TXN[86] dest=8 src=1 payload_size=75 channel=0 queue=3 beats=2
+
+[FC4SC-STYLE-TB] Test completed - generating FC4SC-style coverage report
+
+=== FC4SC-Style Test Final Statistics ===
+Driver transactions sent: 43
+Monitor packets observed: 43
+Monitor beats observed: 152
+DUT packets received: 43
+DUT packets forwarded: 43
+
+=== SIMPLIFIED FC4SC COVERAGE REPORT ===
+Total Samples: 86
+Overall Coverage: 100.0%
+
+--- Coverpoint Coverage ---
+Destination Ports (8/8): 100.0%
+  Port 1: 6 packets
+  Port 2: 22 packets
+  Port 3: 10 packets
+  Port 4: 16 packets
+  Port 5: 8 packets
+  Port 6: 8 packets
+  Port 7: 6 packets
+  Port 8: 10 packets
+Packet Sizes (4/4): 100.0%
+  huge: 4 packets
+  large: 14 packets
+  medium: 34 packets
+  small: 34 packets
+Channel Types (2/2): 100.0%
+  LOW_PRIORITY: 64 packets
+  HIGH_PRIORITY: 22 packets
+Queue IDs (4/4): 100.0%
+  Queue 0: 40 packets
+  Queue 1: 18 packets
+  Queue 2: 18 packets
+  Queue 3: 10 packets
+
+--- Cross Coverage ---
+Destination x Size combinations: 22
+=========================================
+[SIMPLIFIED-FC4SC] XML report exported to: build/fc4sc_style_coverage_report.xml
+
+🎉 ✅ FC4SC-STYLE TEST PASSED!
+Simplified FC4SC Coverage: 100.0% (Goal: 75%)
+Note: This is a simplified FC4SC-style implementation for demonstration
+Real FC4SC would provide more advanced features and UCIS integration
+=========================================
+
+Info: /OSCI/SystemC: Simulation stopped by user.
+=== FC4SC-Style Test completed ===

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage_report>
+  <overall_coverage>100.00</overall_coverage>
+  <total_samples>86</total_samples>
+  <coverpoints>
+    <destination_ports>
+      <port id="1" count="6"/>
+      <port id="2" count="22"/>
+      <port id="3" count="10"/>
+      <port id="4" count="16"/>
+      <port id="5" count="8"/>
+      <port id="6" count="8"/>
+      <port id="7" count="6"/>
+      <port id="8" count="10"/>
+    </destination_ports>
+    <packet_sizes>
+      <size category="small" count="34"/>
+      <size category="medium" count="34"/>
+      <size category="large" count="14"/>
+      <size category="huge" count="4"/>
+    </packet_sizes>
+    <channel_types>
+      <channel type="LOW_PRIORITY" count="64"/>
+      <channel type="HIGH_PRIORITY" count="22"/>
+    </channel_types>
+    <queue_ids>
+      <queue id="0" count="40"/>
+      <queue id="1" count="18"/>
+      <queue id="2" count="18"/>
+      <queue id="3" count="10"/>
+    </queue_ids>
+  </coverpoints>
+  <cross_coverage>
+    <cross dest="1" size="small" count="4"/>
+    <cross dest="1" size="medium" count="2"/>
+    <cross dest="2" size="small" count="8"/>
+    <cross dest="2" size="medium" count="10"/>
+    <cross dest="2" size="large" count="4"/>
+    <cross dest="3" size="small" count="6"/>
+    <cross dest="3" size="medium" count="4"/>
+    <cross dest="4" size="small" count="8"/>
+    <cross dest="4" size="medium" count="6"/>
+    <cross dest="4" size="large" count="2"/>
+    <cross dest="5" size="small" count="4"/>
+    <cross dest="5" size="large" count="4"/>
+    <cross dest="6" size="small" count="6"/>
+    <cross dest="6" size="large" count="2"/>
+    <cross dest="7" size="medium" count="2"/>
+    <cross dest="7" size="huge" count="4"/>
+    <cross dest="8" size="small" count="4"/>
+    <cross dest="8" size="medium" count="4"/>
+    <cross dest="8" size="large" count="2"/>
+  </cross_coverage>
+  <metadata>
+    <generation_time>2025-08-06T13:11:00</generation_time>
+    <test_name>FC4SC-Style Ingress Port Manager Test</test_name>
+    <coverage_model>simplified_fc4sc_coverage</coverage_model>
+    <dut>IngressPortManager</dut>
+  </metadata>
+</coverage_report>

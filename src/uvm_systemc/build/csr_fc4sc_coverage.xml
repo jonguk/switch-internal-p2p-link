@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fc4sc_csr_coverage_report>
+  <metadata>
+    <test_name>CSR UVM Test</test_name>
+    <total_samples>39</total_samples>
+    <timestamp>405 ns</timestamp>
+  </metadata>
+  <coverpoints>
+    <coverpoint name="csr_addresses">
+      <bin name="DEVICE_ID" address="0x0" count="1"/>
+      <bin name="CONTROL" address="0x4" count="19"/>
+      <bin name="STATUS" address="0x8" count="1"/>
+      <bin name="PORT0_CONFIG" address="0x20" count="3"/>
+      <bin name="PORT1_CONFIG" address="0x24" count="3"/>
+      <bin name="PORT2_CONFIG" address="0x28" count="3"/>
+      <bin name="PORT3_CONFIG" address="0x2c" count="3"/>
+      <bin name="" address="0x100" count="2"/>
+      <bin name="" address="0x1000" count="2"/>
+      <bin name="" address="0xffffffff" count="2"/>
+    </coverpoint>
+    <coverpoint name="operations">
+      <bin name="READ" count="23"/>
+      <bin name="WRITE" count="16"/>
+    </coverpoint>
+    <coverpoint name="data_patterns">
+      <bin name="ONES" count="4"/>
+      <bin name="PATTERN" count="10"/>
+      <bin name="RANDOM" count="16"/>
+      <bin name="ZERO" count="9"/>
+    </coverpoint>
+  </coverpoints>
+  <cross_coverage name="address_x_operation">
+    <cross_bin address="DEVICE_ID" operation="READ" count="1"/>
+    <cross_bin address="CONTROL" operation="READ" count="10"/>
+    <cross_bin address="CONTROL" operation="WRITE" count="9"/>
+    <cross_bin address="STATUS" operation="READ" count="1"/>
+    <cross_bin address="PORT0_CONFIG" operation="READ" count="2"/>
+    <cross_bin address="PORT0_CONFIG" operation="WRITE" count="1"/>
+    <cross_bin address="PORT1_CONFIG" operation="READ" count="2"/>
+    <cross_bin address="PORT1_CONFIG" operation="WRITE" count="1"/>
+    <cross_bin address="PORT2_CONFIG" operation="READ" count="2"/>
+    <cross_bin address="PORT2_CONFIG" operation="WRITE" count="1"/>
+    <cross_bin address="PORT3_CONFIG" operation="READ" count="2"/>
+    <cross_bin address="PORT3_CONFIG" operation="WRITE" count="1"/>
+    <cross_bin address="" operation="READ" count="1"/>
+    <cross_bin address="" operation="WRITE" count="1"/>
+    <cross_bin address="" operation="READ" count="1"/>
+    <cross_bin address="" operation="WRITE" count="1"/>
+    <cross_bin address="" operation="READ" count="1"/>
+    <cross_bin address="" operation="WRITE" count="1"/>
+  </cross_coverage>
+</fc4sc_csr_coverage_report>
