@@ -1,0 +1,77 @@
+# Build directories
+build/
+obj_dir/
+*/build/
+*/obj_dir/
+
+# Binary files
+*.o
+*.a
+*.so
+*.dylib
+*.exe
+
+# Debug symbols
+*.dSYM/
+
+# Simulation files
+*.vcd
+*.fsdb
+*.wlf
+
+# Log files
+*.log
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+.pytest_cache/
+
+# Virtual environments
+venv/
+venv_*/
+.venv/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+
+# Coverage reports (keep source, ignore generated)
+*.gcda
+*.gcno
+*.gcov
+
+# SystemC/UVM generated files
+sc_main
+*.x
+*.out
+
+# LLVM/Clang generated files
+*.ll
+*.bc
+*.s
+machine_ir*.txt
+mir_*.txt
+
+# Verilator generated files
+Vtb_*
+verilated*
+
+# Make dependencies
+*.d
